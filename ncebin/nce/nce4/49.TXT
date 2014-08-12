@@ -1,0 +1,30 @@
+Rockets and artificial satellites can go far above the ionosphere, and even escape
+from the Earth. Yet they are complex and expensive, and in their present stage
+of development they cannot lift massive telescopes, keep them steady while the
+observations are being carried out, and then return them safely. Balloons are
+much easier to handle, and are also vastly cheaper. Their main limitation is that
+they are incapable of rising to the ionosphere. A height of between 80,000 and
+90,000 feet is as much as can reasonably be expected, and so balloon-borne instru-
+ments can contribute little to either ultra-violet astronomy or X-ray astronomy.
+All the same, the balloon has much to be said in its favour, since it can at least
+carry heavy equipment above most of the atmospheric mass--thus eliminating
+blurring and unsteadiness of the images. Moreover, water-vapour and carbon
+dioxide in the lower air absorb most of the infra-red radiations sent to us from
+the planets. Balloon ascents overcome this hazard with ease.
+Hot-air balloons date back to the year 1783, and within a few months of the
+first flight a French scientist, Charles, went up two miles in a free balloon. Yet
+there is little resemblance between these crude vehicles and a modern scientific
+balloon, which has by now become an important research tool.
+The main development has been carried out by M. Schwarlschild and his
+team at Princeton University in the United States, in collaboration with the
+United States Navy, the National Science Foundation, and the National Aero-
+nautics and Space Administration. The 'Stratoscope' flights of 1959, concerned
+mainly with studies of the Sun, were remarkably successful, and the project has
+now been extended. With Stratoscope II, the overall height from the telescope
+to the top of the launch balloon is 666 feet, the balloons together weigh over two
+tons, and another two tons of ballast are carried for later release if height has
+be maintained during the night. The telescope, plus its controls weighs three-
+and-a-half tons. Two large parachutes arc also carried; in case of emergency, the
+instruments and their records can be separated from the main balloon system,
+and brought down gently. Many of the radio and electronic devices used are
+similar to those of artificial satellites.
