@@ -1,1 +1,5 @@
 *.exe
+*.ilk
+*.pdb
+*.pro.user
+*.pro.user*
