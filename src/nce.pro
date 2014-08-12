@@ -14,9 +14,14 @@ DESTDIR = ../ncebin
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    nce.cpp
+    nce.cpp \
+    data.cpp \
+    classinfo.cpp
 
 HEADERS  += mainwindow.hxx \
-    nce.hxx
+    nce.hxx \
+    data.hxx \
+    classinfo.hxx
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    classinfo.ui

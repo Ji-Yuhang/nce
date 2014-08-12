@@ -3,3 +3,7 @@
 *.pdb
 *.pro.user
 *.pro.user*
+build*/*
+ncebin/*.exe
+ncebin/*.ilk
+ncebin/*.pdb

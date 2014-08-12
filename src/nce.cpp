@@ -3,6 +3,19 @@
 #include <QFileInfo>
 #include <QStringList>
 #include <QDebug>
+#include <QRegExp>
+#include <QProgressDialog>
+
+QString simpleChange(const QString& text)
+{
+    QString temp = text;
+
+    temp.replace("\r\n"," ");
+    temp.replace("\n", " ");
+    temp.replace("- ", "-");
+    temp.replace("- ", "-");
+    return temp;
+}
 Nce::Nce(QObject *parent) :
     QObject(parent)
 {
@@ -14,6 +27,7 @@ Nce::Nce(QObject *parent) :
             parseFile(nce, j);
         }
     }
+    parseWord();
 }
 
 bool Nce::parseFile(const QString &nce, int _class)
@@ -34,12 +48,84 @@ bool Nce::parseFile(const QString &nce, int _class)
         return false;
     }
     QString text = file_.readAll();
-    QStringList sentenceList = text.split(".");
+    if (file_.isOpen())
+        file_.close();
+    text = simpleChange(text);
+
+    QStringList sentenceList = text.split(QRegExp("[\\.!\\?]"),QString::SkipEmptyParts);
     int sentenceSize = sentenceList.size();
 
+    ClassIndex index;
+    index.nce = nce;
+    index.class_ = _class;
+    data_.classContent_.insert(index,text);
+    WordMap wordMap;
+    foreach (QString sentence, sentenceList) {
+        QStringList wordList;
+        wordList = sentence.split(QRegExp("\\W+"), QString::SkipEmptyParts);
+        WordInfo wordInfo;
+        wordInfo.index = index;
+//        wordInfo.sentences.push_back(sentence);
+        foreach (QString w, wordList) {
+            Word word;
+            word.index = index;
+            word.word = w;
+            wordMap.insert(word,wordInfo);
+            for (WordMap::iterator it = wordMap.begin(), ie = wordMap.end();
+                 it != ie; ++it){
+                if (it.key() == word) {
+                    WordInfo& info = it.value();
+                    info.sentences.push_back(sentence);
+                    info.sentences.removeDuplicates();
+                }
+            }
+        }
+    }
+
+
     //Todo:
+
+    data_.classMap_.insert(index, wordMap);
+
 
     return true;
 
 
+}
+
+bool Nce::parseWord()
+{
+    QProgressDialog dialog;
+    dialog.setModal(true);
+    dialog.setLabelText(" i am reading from every class...");
+    dialog.setRange(0, data_.classMap_.size());
+    dialog.show();
+    int process = 0;
+    ClassMap::iterator it = data_.classMap_.begin(), iE = data_.classMap_.end();
+    for (;it != iE; ++it) {
+        ClassIndex index =  it.key();
+        WordMap& wordMap = it.value();
+        dialog.setValue(++process);
+        WordMap::iterator wit = wordMap.begin(), wiE = wordMap.end();
+        for (; wit != wiE; ++wit) {
+            Word word = wit.key();
+            WordInfo info = wit.value();
+            QString w = word.word;
+            QStringList wl = info.sentences;
+            data_.wordList_.insert(w,info);
+            // This is buggy!!!
+            // must change!!!
+            for(WordList::iterator it= data_.wordList_.begin(),
+                ie = data_.wordList_.end();
+                it != ie;
+                ++it) {
+                if (it.key() == w) {
+                    it.value().sentences.append(wl);
+                    it.value().sentences.removeDuplicates();
+                }
+            }
+        }
+
+    }
+    return true;
 }
