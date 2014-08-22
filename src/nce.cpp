@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QRegExp>
 #include <QProgressDialog>
+#include <QMessagebox>
 
 QString simpleChange(const QString& text)
 {
@@ -24,10 +25,13 @@ Nce::Nce(QObject *parent) :
     for (int i = 0; i < 4; ++i) {
         QString nce = nces[i];
         for (int j = 1; j < 100; ++j) {
-            parseFile(nce, j);
+            //parseFile(nce, j);
+            //replaceFile(nce, j);
         }
     }
-    parseWord();
+    //replaceFile("nce3", 1);
+    //QMessageBox::information(0,"ok","replace completed!");
+    //parseWord();
 }
 
 bool Nce::parseFile(const QString &nce, int _class)
@@ -128,4 +132,35 @@ bool Nce::parseWord()
 
     }
     return true;
+}
+
+bool Nce::replaceFile(const QString &nce, int _class)
+{
+    QString path = qApp->applicationDirPath()+"/nce/";
+    path += nce + "/";
+    QString classStr = QString::number(_class);
+    if (_class < 10) classStr = "0" + QString::number(_class);
+    path += classStr;
+    QFileInfo fileInfo(path + ".txt");
+    if (!fileInfo.exists())
+        path += ".TXT";
+    else
+        path += ".txt";
+    file_.setFileName(path);
+    if (!file_.open(QIODevice::ReadOnly)) {
+        qDebug() << "Read File Error!"+ path;
+        return false;
+    }
+    QString text = file_.readAll();
+    if (file_.isOpen())
+        file_.close();
+    text = simpleChange(text);
+    QStringList sentenceList = text.split(QRegExp("[\\.!\\?]"),QString::SkipEmptyParts);
+    QString newString = sentenceList.join("\n");
+    if (!file_.open(QIODevice::WriteOnly)) {
+        qDebug() << "Read File Error!"+ path;
+        return false;
+    }
+    file_.write(newString.toLatin1());
+    file_.close();
 }

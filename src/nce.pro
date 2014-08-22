@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -24,4 +25,5 @@ HEADERS  += mainwindow.hxx \
     classinfo.hxx
 
 FORMS    += mainwindow.ui \
-    classinfo.ui
+    classinfo.ui \
+    import.ui

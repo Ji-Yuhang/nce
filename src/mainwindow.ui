@@ -71,6 +71,7 @@
      <string>课文</string>
     </property>
     <addaction name="read"/>
+    <addaction name="importFile"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -92,6 +93,11 @@
   <action name="actionQuit">
    <property name="text">
     <string>退出</string>
+   </property>
+  </action>
+  <action name="importFile">
+   <property name="text">
+    <string>导入文章</string>
    </property>
   </action>
  </widget>

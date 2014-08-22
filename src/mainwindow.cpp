@@ -1,12 +1,21 @@
 #include "mainwindow.hxx"
+#include <QFileDialog>
 #include <map>
+#include <QDebug>
+#include <QToolTip>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
     ui.setupUi(this);
+    importUi.setupUi(&import_);
+//    import_.setStyleSheet();
     connect(ui.tableWidget, SIGNAL(cellClicked(int,int)), this, SLOT(showInfo(int,int)));
     connect(ui.read, SIGNAL(triggered()),this,SLOT(showRead()));
+    connect(ui.importFile, SIGNAL(triggered()),this,SLOT(import()));
+    connect(importUi.indent, SIGNAL(clicked()),this, SLOT(indent()));
+    connect(importUi.textEdit, SIGNAL(selectionChanged()),this ,SLOT(selectedWord()));
+    connect(&netManager_, SIGNAL(finished(QNetworkReply*)),this, SLOT(readReply(QNetworkReply*)));
 }
 
 void MainWindow::init()
@@ -71,4 +80,85 @@ void MainWindow::showInfo(int row,int col)
 void MainWindow::showRead()
 {
     classInfo_.showNormal();
+}
+
+void MainWindow::import()
+{
+    path_ = QFileDialog::getOpenFileName();
+    if (path_.isEmpty()) return;
+    QFile file;
+    file.setFileName(path_);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qDebug() << "Read File Error!"+ path_;
+        return ;
+    }
+    QString content = file.readAll();
+    file.close();
+
+    importUi.textEdit->setPlainText(content);
+    import_.setWindowTitle(path_);
+    import_.showNormal();
+}
+
+
+void MainWindow::indent()
+{
+    QString content = importUi.textEdit->toPlainText();
+    content.replace("-\r\n", "");
+    content.replace("-\n", "");
+    content.replace("\r\n"," ");
+    content.replace("\n", " ");
+    content.replace("- ", "-");
+    content.replace("- ", "-");
+    QStringList sentenceList = content.split(QRegExp("[\\.!\\?]"),QString::SkipEmptyParts);
+    int i = 0;
+    foreach (QString s, sentenceList) {
+        s.trimmed();
+        QString iStr = QString::number(i);
+        s.insert(0, iStr+"    ");
+    }
+    QString newString = sentenceList.join("\n");
+    importUi.textEdit->setPlainText(newString);
+    /*
+    QFile file;
+    file.setFileName(path_);
+    if (!file.open(QIODevice::WriteOnly)) {
+        qDebug() << "Read File Error!"+ path_;
+        return ;
+    }
+    
+    file.write(newString.toLatin1());
+    file.close();
+    */
+}
+
+void MainWindow::selectedWord()
+{
+    QTextCursor cursor =  importUi.textEdit->textCursor();
+    QString text = cursor.selectedText();
+    if (text.isEmpty()) return;
+    qDebug() << "selected text: "<<text;
+    QPoint p = QCursor::pos();
+    getWordDescription(text);
+    
+}
+
+void MainWindow::getWordDescription(const QString &text)
+{
+    /*
+    QString url = QString("https://api.shanbay.com/oauth2/authorize/?client_id=CLIENT_ID&response_type=code&state=123")
+    QUrl url();
+    netManager_.get(url)
+    ;
+    */
+}
+
+void MainWindow::showDescription()
+{
+    
+}
+
+void MainWindow::readReply(QNetworkReply *)
+{
+    
 }
