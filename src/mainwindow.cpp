@@ -107,17 +107,15 @@ void MainWindow::indent()
     content.replace("-\r\n", "");
     content.replace("-\n", "");
     content.replace("\r\n"," ");
-    content.replace("\n", " ");
+    content.replace("\n", "");
     content.replace("- ", "-");
     content.replace("- ", "-");
     QStringList sentenceList = content.split(QRegExp("[\\.!\\?]"),QString::SkipEmptyParts);
     int i = 0;
-    foreach (QString s, sentenceList) {
-        s.trimmed();
-        QString iStr = QString::number(i);
-        s.insert(0, iStr+"    ");
-    }
-    QString newString = sentenceList.join("\n");
+    for (int i = 0; i < sentenceList.size(); ++i)
+        sentenceList[i].trimmed();
+
+    QString newString = sentenceList.join(".\n");
     importUi.textEdit->setPlainText(newString);
     /*
     QFile file;
@@ -145,12 +143,14 @@ void MainWindow::selectedWord()
 
 void MainWindow::getWordDescription(const QString &text)
 {
-    /*
-    QString url = QString("https://api.shanbay.com/oauth2/authorize/?client_id=CLIENT_ID&response_type=code&state=123")
-    QUrl url();
-    netManager_.get(url)
+    // app key a589ef972d26fa87d58b 
+    // app secret fdab01830d958dd4022e06611153839cab1c2cf2
+    QString key = "a589ef972d26fa87d58b";
+    QString secret = "fdab01830d958dd4022e06611153839cab1c2cf2";
+    QString url = QString("https://api.shanbay.com/oauth2/authorize/?client_id=%1&response_type=%2&state=%3").arg(key).arg("code").arg(123);
+    netManager_.get(QNetworkRequest(QUrl(url)));
     ;
-    */
+    
 }
 
 void MainWindow::showDescription()
@@ -158,7 +158,17 @@ void MainWindow::showDescription()
     
 }
 
-void MainWindow::readReply(QNetworkReply *)
+void MainWindow::readReply(QNetworkReply *reply)
 {
+    QUrl url = reply->url();
+    QUrl redirect = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl();
+    QString urlStr = url.toString();
+    QString urlRedirectStr = redirect.toString();
+    QByteArray block = reply->readAll();
+    netManager_.get(QNetworkRequest(QUrl(redirect)));
     
+    QString ss = block;
+    qDebug() << block;
+    int i = ss.size();
+    i++;
 }
