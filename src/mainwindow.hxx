@@ -8,6 +8,10 @@
 #include "ui_import.h"
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include "shanbay.hxx"
+#include "ui_wordinfo.h"
+#include <phonon>
+class QWebView;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -25,13 +29,29 @@ public slots:
     void getWordDescription(const QString & text);
     void showDescription();
     void readReply(QNetworkReply*);
+
+    void authSuccess();
+    void urlChanged(QUrl);
+    void getToken();
+    void getWord(const QString & text);
+    void showWord(const QString & text);
+    void playMp3(const QString & text);
+    void addWord();
 private:
+
     Ui::MainWindow ui;
     ClassInfo classInfo_;
     QWidget import_;
     Ui::ImportUi importUi;
     QString path_;
     QNetworkAccessManager netManager_;
+    QWebView* webview_;
+    Shanbay * shanbay_;
+    QPushButton *infoButton_;
+    Ui::WordInfo wordui;
+    Phonon::MediaObject mediaObj_;
+    Phonon::AudioOutput output_;
+    Phonon::MediaSource source_;
 };
 
 #endif // MAINWINDOW_HXX

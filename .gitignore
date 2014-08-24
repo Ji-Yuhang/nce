@@ -7,3 +7,12 @@ build*/*
 ncebin/*.exe
 ncebin/*.ilk
 ncebin/*.pdb
+*.mp3
+src/Win32/*
+src/Debug/*
+src/GeneratedFiles/*
+*.user
+*.sln
+*.suo
+*.vcproj
+*.ncb
