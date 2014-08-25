@@ -52,6 +52,9 @@ private:
     Phonon::MediaObject mediaObj_;
     Phonon::AudioOutput output_;
     Phonon::MediaSource source_;
+
+    QString lastSelectWord_;
+    QTextCursor lastTextCursor_;
 };
 
 #endif // MAINWINDOW_HXX

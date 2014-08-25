@@ -152,6 +152,7 @@ void Shanbay::getToken()
 
 void Shanbay::getWord(const QString & text)
 {
+    if (wordReply_) return;
     if (wordMap_.contains(text)) {
         emit wordFinished(text);
         QString audio = wordMap_[text].audio;
@@ -178,6 +179,7 @@ void Shanbay::getWord(const QString & text)
     request.setUrl(QUrl(url));
     QString tokenStr = QString("Bearer %1").arg(token_);
     request.setRawHeader("Authorization",tokenStr.toLatin1());
+
     wordReply_ =  netManager_.get(request);
     connect(wordReply_, SIGNAL(finished()), this, SLOT(readWord()));
 }

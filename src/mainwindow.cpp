@@ -11,6 +11,7 @@
 
 #include <QSound>
 #include <phonon>
+#include <QTextCodec>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
@@ -122,10 +123,21 @@ void MainWindow::import()
         qDebug() << "Read File Error!"+ path_;
         return ;
     }
-    QString content = file.readAll();
+    QTextStream stream(&file);
+    stream.setCodec(QTextCodec::codecForName("GBK"));
+    QString content = stream.readAll();
     file.close();
 
-    importUi.textEdit->setPlainText(content);
+    content.replace("\uA3AC", ",");
+    content.replace("\uA3AE", ".");
+//    content.replace("？", "?");
+//    content.replace("！", "!");
+//    content.replace("！", "!");
+//    content.replace("－", "-");
+    content.insert(0,"<html><head><stype type=\"text/css\">body{line-height:150%;word-spacing: 3px}</style></head><body><font face='Arial'>");
+    content.append("</font></body></html>");
+//    importUi.textEdit->setPlainText(content);
+    importUi.textEdit->setHtml(content);
     import_.setWindowTitle(path_);
     import_.showNormal();
 }
@@ -162,13 +174,33 @@ void MainWindow::indent()
 
 void MainWindow::selectedWord()
 {
+    if (infoButton_->isVisible()) return;
     QTextCursor cursor =  importUi.textEdit->textCursor();
     QString text = cursor.selectedText();
+
+    int pos = cursor.position();
+    int posInBlock = cursor.positionInBlock();
+    qDebug()<< pos << posInBlock;
+    if (!lastTextCursor_.isNull()) {
+        int lastpos = lastTextCursor_.position();
+        int diffPos = qAbs(lastpos - pos);
+        if (diffPos == 0) return;
+        else if (diffPos == 1) {
+            QString lastSelect = lastTextCursor_.selectedText();
+            if (lastSelect == text) return;
+        }
+    }
+
     text.trimmed();
     if (text.isEmpty()) return;
+//    if (text.contains(QRegExp("\s"))) return;
+    if (text.contains(QRegExp("[^A-Za-z]"))) return;
+    if (text == lastSelectWord_) return;
     qDebug() << "selected text: "<<text;
     QPoint p = QCursor::pos();
     getWordDescription(text);
+    lastSelectWord_ = text;
+    lastTextCursor_ = cursor;
     
 }
 
@@ -317,7 +349,10 @@ void MainWindow::showWord(const QString &text)
 //    connect(ui.uk, SIGNAL(clicked()), w, SLOT(close()));
 //    connect(w, SIGNAL(clicked()), w, SLOT(close()));
     setText(infoButton_, "word", wordInfo.content);
-    setText(infoButton_, "yinbiao", wordInfo.pronunciation);
+    QString yinbiao = wordInfo.pronunciation;
+    yinbiao.insert(0,"<font face='Arial'>[");
+    yinbiao.append("]</font>");
+    setText(infoButton_, "yinbiao", yinbiao);
     setText(infoButton_, "cn", wordInfo.definition);
 
     //QSound::play(wordInfo.audio);

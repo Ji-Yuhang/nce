@@ -59,8 +59,7 @@
    <item row="1" column="0" colspan="3">
     <widget class="QTextEdit" name="textEdit">
      <property name="styleSheet">
-      <string notr="true">font: 11.5pt &quot;Monaco&quot;;
-background-color: rgb(241, 240, 227);
+      <string notr="true">background-color: rgb(249, 249, 245);
 selection-background-color: rgb(32, 158, 133);
 selection-color: rgb(255, 255, 255);
 </string>
