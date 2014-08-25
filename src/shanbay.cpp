@@ -154,6 +154,21 @@ void Shanbay::getWord(const QString & text)
 {
     if (wordMap_.contains(text)) {
         emit wordFinished(text);
+        QString audio = wordMap_[text].audio;
+        {
+            
+            int index = audio.lastIndexOf("/");
+            QString name = audio.mid(index + 1);
+            QString path = QDir::currentPath()+"/mp3/"+name;
+            QFileInfo fileInfo;
+            fileInfo.setFile(path);
+            if (fileInfo.exists())
+                emit mp3Filnished(name);
+            else {
+                audioReply_ = netManager_.get(QNetworkRequest(QUrl(audio)));
+                connect(audioReply_, SIGNAL(finished()), this, SLOT(readMp3()));
+            }
+        }
         return;
     }
  // https://api.shanbay.com/bdc/search/?word={word};
@@ -171,10 +186,14 @@ void Shanbay::readWord()
 {
     ShanbayWord word;
     QByteArray block = wordReply_->readAll();
+    if(block.isEmpty()){
+        qDebug()<<"read word return is empty";
+        return;
+    }
     bool success = false;
     QtJson::JsonObject obj =  QtJson::parse(block, success).toMap();
     if (!success) {
-        QMessageBox::critical(0,"json error",block);
+        qDebug()<<"Error!!! json pare Error!"<<block;
         return;
     }
     word.status_code = obj["status_code"].toString();
@@ -255,7 +274,6 @@ void Shanbay::readWord()
             connect(audioReply_, SIGNAL(finished()), this, SLOT(readMp3()));
         }
     }
-    qDebug() << block;
     wordReply_->deleteLater();
     wordReply_ = 0;
 }
@@ -279,9 +297,6 @@ void Shanbay::readMp3()
     file.write(block);
     file.close();
     emit mp3Filnished(name);
-
-    qDebug() <<"current dir"<<QDir::currentPath()<< "mp3 file paht"<<path;
-//    QSound::play(QDir::currentPath()+"/"+path);
     audioReply_->deleteLater();;
     audioReply_ = 0;
 

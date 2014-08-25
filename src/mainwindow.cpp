@@ -164,6 +164,7 @@ void MainWindow::selectedWord()
 {
     QTextCursor cursor =  importUi.textEdit->textCursor();
     QString text = cursor.selectedText();
+    text.trimmed();
     if (text.isEmpty()) return;
     qDebug() << "selected text: "<<text;
     QPoint p = QCursor::pos();
@@ -174,7 +175,7 @@ void MainWindow::selectedWord()
 void MainWindow::getWordDescription(const QString &text)
 {
 
-    getToken();
+//    getToken();
     getWord(text);
     
 }
@@ -309,7 +310,7 @@ void MainWindow::showWord(const QString &text)
 {
     infoButton_->close();
     QPoint point = QCursor::pos();
-    point.ry() += 4;
+    point.ry() += 10;
     infoButton_->move(point);
     ShanbayWord wordInfo = shanbay_->wordInfo(text);
 
@@ -330,10 +331,7 @@ void MainWindow::showWord(const QString &text)
 void MainWindow::playMp3(const QString &text)
 {
     QString soucrePath = QDir::currentPath() +"/mp3/"+ text;
-    qDebug()<<"mp3 path" << soucrePath;
-
     Phonon::MediaSource source(soucrePath);
-//    Phonon::createPath(&mediaObj, &output);
     mediaObj_.setCurrentSource(source);
     mediaObj_.play();
 }
