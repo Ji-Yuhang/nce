@@ -45,6 +45,8 @@ private:
     QString key_;
     QString secret_;
     QString token_;
+    QString code_;
+    QString redirect_uri_;
 signals:
     void wordFinished(QString);
     void mp3Filnished(QString);

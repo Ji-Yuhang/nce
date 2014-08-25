@@ -26,21 +26,19 @@ Shanbay::Shanbay(QObject *parent) :
     token_ = settings.value("/token/token").toString();
     key_ = settings.value("/token/key").toString();
     secret_ = settings.value("/token/secret").toString();
-    QString portStr = settings.value("/server/port").toString();
-    long long int portLong = portStr.toLongLong();
+    code_ = settings.value("/token/code").toString();
+    redirect_uri_ = settings.value("/token/redirect_uri").toString();
 
 
     token_ = "OakbBHYBD5BAbVyy3HjCEZrFDqkP1L";
-
-    //QString url = QString("https://api.shanbay.com/oauth2/authorize/?client_id=%1&response_type=%2&state=%3").arg(key_).arg("code").arg(123);
-
-//    webview_->load(QUrl(url));
-//    webview_->show();
     connect(webview_, SIGNAL(urlChanged(QUrl)), this, SLOT(urlChanged(QUrl)) );
 }
 
 Shanbay::~Shanbay()
 {
+    QString path = QDir::currentPath() + "/token.ini";
+    QSettings settings(path, QSettings::IniFormat);
+    settings.setValue("/token/token",QVariant(token_));
     delete webview_;
 }
 
@@ -139,35 +137,17 @@ void Shanbay::urlChanged(QUrl url)
             token_ = tokenStr.mid(index2 +1);
         }
     }
-
-    //code = TuqHGUy5jM4HxA369iihI8bC8tYJtA
 }
 
 void Shanbay::getToken()
 {
-
     QString url = "https://api.shanbay.com/oauth2/token/";
     QtJson::JsonObject obj;
-    QString key = "c939b9b845440f2e1334";
-    QString secret = "05c4df6894ff18cc16f9e4b8c88fcdb4a5557c19";
-    QString tokenUrl = "https://api.shanbay.com/oauth2/authorize/?client_id=c939b9b845440f2e1334&response_type=token&redirect_uri=https://api.shanbay.com/oauth2/auth/success/";
-    //https://api.shanbay.com/oauth2/auth/success/#access_token=OakbBHYBD5BAbVyy3HjCEZrFDqkP1L&token_type=Bearer&state=&expires_in=2592000&scope=read+write
+    QString key = key_;
+    QString secret = secret_;
+    QString tokenUrl = QString("https://api.shanbay.com/oauth2/authorize/?client_id=%1&response_type=token&redirect_uri=https://api.shanbay.com/oauth2/auth/success/").arg(key_);
     webview_->load(QUrl(tokenUrl));
     webview_->show();
-    QString access_token = "OakbBHYBD5BAbVyy3HjCEZrFDqkP1L";
-    QString tokenType = "Bearer";
-    QString expires_in = "2592000";
-    QString scope = "read+write";
-    obj["client_id"] = key;
-    obj["client_secret"] = secret;
-    obj["grant_type"] = "authorization-code";
-    obj["code"] = "TuqHGUy5jM4HxA369iihI8bC8tYJtA";
-    obj["redirect_uri"] = "https://api.shanbay.com/oauth2/auth/success/";
-
-    QByteArray data = QtJson::serialize(obj);
-//    netManager_.post(QNetworkRequest(QUrl(url)), data);
-
-    // https://api.shanbay.com/oauth2/authorize/?client_id=c939b9b845440f2e1334&response_type=token&redirect_uri=https://api.shanbay.com/oauth2/auth/success/
 }
 
 void Shanbay::getWord(const QString & text)
@@ -179,6 +159,7 @@ void Shanbay::getWord(const QString & text)
  // https://api.shanbay.com/bdc/search/?word={word};
     QString url = QString("https://api.shanbay.com/bdc/search/?word=%1").arg(text);
     QNetworkRequest request;
+    QString codeurl = "https://api.shanbay.com/oauth2/token/?client_id=a589ef972d26fa87d58b&client_secret=fdab01830d958dd4022e06611153839cab1c2cf2&grant_type=authorization_code&code=WllzU1ZtrMJNw1fyEEWI4LuEg9yTXN&redirect_uri=https://api.shanbay.com/oauth2/auth/success/";
     request.setUrl(QUrl(url));
     QString tokenStr = QString("Bearer %1").arg(token_);
     request.setRawHeader("Authorization",tokenStr.toLatin1());
@@ -308,27 +289,29 @@ void Shanbay::readMp3()
 
 void Shanbay::addWord(const QString &text)
 {
-    static bool flag = true;
-    if (flag) {
-        getToken();
-        flag = false;
-    }
+//    QString codeurl = "https://api.shanbay.com/oauth2/token/?client_id=a589ef972d26fa87d58b&client_secret=fdab01830d958dd4022e06611153839cab1c2cf2&grant_type=authorization_code&code=WllzU1ZtrMJNw1fyEEWI4LuEg9yTXN&redirect_uri=https://api.shanbay.com/oauth2/auth/success/";
+//    QString codeurl1 = "https://api.shanbay.com/oauth2/token/?client_id=a589ef972d26fa87d58b";
     if (webview_->isVisible()) return;
     // https://api.shanbay.com/bdc/learning/
     QString url = "https://api.shanbay.com/bdc/learning/";
+//    qDebug() << "get word url:"<<url;
     QNetworkRequest request;
     request.setUrl(QUrl(url));
     QString tokenStr = QString("Bearer %1").arg(token_);
     request.setRawHeader("Authorization",tokenStr.toLatin1());
+    request.setHeader(QNetworkRequest::ContentTypeHeader,"application/json");
+    request.setRawHeader("Cache-Control","no-store");
+    request.setRawHeader("Pragma","no-cache");
     ShanbayWord word = wordInfo(text);
     QtJson::JsonObject obj;
     obj["id"] = word.id;
+    obj["access_token"] = token_;
+    obj["token_type"] = "Bearer";
+    obj["expires_in"] = 2592000;
     QByteArray json = QtJson::serialize(obj);
 
-    webview_->load(request,QNetworkAccessManager::PostOperation, json);
-    webview_->show();
-//    addReply_ =  netManager_.post(request,json);
-//    connect(addReply_, SIGNAL(finished()), this, SLOT(addReply()));
+    addReply_ =  netManager_.post(request,json);
+    connect(addReply_, SIGNAL(finished()), this, SLOT(addReply()));
 
 }
 
@@ -336,6 +319,7 @@ void Shanbay::addReply()
 {
     QUrl url = addReply_->url();
     QByteArray block = addReply_->readAll();
+    qDebug()<< "add word reply:"<<block;
     bool success = false;
     QtJson::JsonObject obj =  QtJson::parse(block,success).toMap();
     QString msg = obj["msg"].toString();
@@ -350,5 +334,9 @@ void Shanbay::addReply()
     long long lid = data["id"].toLongLong();
     if (msg == "SUCCESS"){
         QMessageBox::information(0,"add word success",QString(" %1 learning id %2").arg("todo").arg(id));
+    } else {
+
+            getToken();
+
     }
 }

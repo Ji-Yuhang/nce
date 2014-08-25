@@ -16,3 +16,4 @@ src/GeneratedFiles/*
 *.suo
 *.vcproj
 *.ncb
+ncebin/nce/*/*
