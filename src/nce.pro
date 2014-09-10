@@ -6,7 +6,7 @@
 
 QT       += core gui
 QT       += network
-QT       += phonon
+#QT       += phonon
 QT       += multimedia
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 QT       += webkit
@@ -16,6 +16,7 @@ TARGET = nce
 TEMPLATE = app
 DESTDIR = ../ncebin
 
+QMAKE_INFO_PLIST = Info.plist
 SOURCES += main.cpp\
         mainwindow.cpp \
     nce.cpp \

@@ -6,11 +6,11 @@
 #include <QDebug>
 #include <QToolTip>
 //#include <QWebView>
-#include <QtWebKit/QWebView>
+#include <QWebView>
 #include "json.h"
 
 #include <QSound>
-#include <phonon>
+//#include <phonon>
 #include <QTextCodec>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -39,14 +39,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(shanbay_, SIGNAL(wordFinished(QString)), this, SLOT(showWord(QString)));
     connect(shanbay_, SIGNAL(mp3Filnished(QString)), this, SLOT(playMp3(QString)));
     infoButton_ = new QPushButton;
-    infoButton_->setWindowFlags(Qt::FramelessWindowHint);
+    infoButton_->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
 
 
     wordui.setupUi(infoButton_);
 
     connect(infoButton_, SIGNAL(clicked()), infoButton_, SLOT(close()));
     connect(wordui.add, SIGNAL(clicked()), this, SLOT(addWord()));
-    Phonon::createPath(&mediaObj_, &output_);
+//    Phonon::createPath(&mediaObj_, &output_);
 }
 
 void MainWindow::init()
@@ -365,10 +365,10 @@ void MainWindow::showWord(const QString &text)
 
 void MainWindow::playMp3(const QString &text)
 {
-    QString soucrePath = QDir::currentPath() +"/mp3/"+ text;
-    Phonon::MediaSource source(soucrePath);
-    mediaObj_.setCurrentSource(source);
-    mediaObj_.play();
+//    QString soucrePath = QDir::currentPath() +"/mp3/"+ text;
+//    Phonon::MediaSource source(soucrePath);
+//    mediaObj_.setCurrentSource(source);
+//    mediaObj_.play();
 }
 
 void MainWindow::addWord()
