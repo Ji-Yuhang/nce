@@ -20,8 +20,11 @@ Shanbay::Shanbay(QObject *parent) :
     // old app secret fdab01830d958dd4022e06611153839cab1c2cf2
     key_ = "c939b9b845440f2e1334";
     secret_ = "05c4df6894ff18cc16f9e4b8c88fcdb4a5557c19";
-
+#ifdef Q_OS_MAC
+    QString path = QDir::currentPath() + "/../../../token.ini";
+#else
     QString path = QDir::currentPath() + "/token.ini";
+#endif
     QSettings settings(path, QSettings::IniFormat);
     token_ = settings.value("/token/token").toString();
     key_ = settings.value("/token/key").toString();
@@ -29,8 +32,8 @@ Shanbay::Shanbay(QObject *parent) :
     code_ = settings.value("/token/code").toString();
     redirect_uri_ = settings.value("/token/redirect_uri").toString();
 
-
-    token_ = "OakbBHYBD5BAbVyy3HjCEZrFDqkP1L";
+    qDebug()<< path << token_;
+//    token_ = "OakbBHYBD5BAbVyy3HjCEZrFDqkP1L";
     connect(webview_, SIGNAL(urlChanged(QUrl)), this, SLOT(urlChanged(QUrl)) );
 }
 
@@ -290,7 +293,12 @@ void Shanbay::readMp3()
 
     QByteArray block = audioReply_->readAll();
     QFile file;
-    QString path = QDir::currentPath()+"/mp3/"+name;
+    QString path = QDir::currentPath();
+#ifdef Q_OS_MAC
+    path += "/../../../mp3/" + name;
+#else
+    path += "/mp3/" + name;
+#endif
     file.setFileName(path);
     if (!file.open(QIODevice::WriteOnly)){
         qDebug() << "open file Error"<<name;
