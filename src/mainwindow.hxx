@@ -37,6 +37,7 @@ public slots:
     void showWord(const QString & text);
     void playMp3(const QString & text);
     void addWord();
+    void searchWord();
 private:
 
     Ui::MainWindow ui;

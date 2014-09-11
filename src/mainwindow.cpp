@@ -12,6 +12,8 @@
 #include <QSound>
 //#include <phonon>
 #include <QTextCodec>
+#include "article.hxx"
+#include "database.hxx"
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
@@ -46,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(infoButton_, SIGNAL(clicked()), infoButton_, SLOT(close()));
     connect(wordui.add, SIGNAL(clicked()), this, SLOT(addWord()));
+    connect(ui.word, SIGNAL(triggered()), this, SLOT(searchWord()));
 //    Phonon::createPath(&mediaObj_, &output_);
 }
 
@@ -134,7 +137,7 @@ void MainWindow::import()
 //    content.replace("！", "!");
 //    content.replace("！", "!");
 //    content.replace("－", "-");
-    content.insert(0,"<html><head><style type=\"text/css\">body{line-height:150%;word-spacing: 3px; font-family: \"Arial\", Arial, sans-serif;font-size:20px}</style></head><body>");
+    content.insert(0,"<html><head><style type=\"text/css\">body{line-height:140%;word-spacing: 3px; font-family:Georgia,Times,\"Times New Roman\",Arial,serif ;font-size:20px;font-style:italic}</style></head><body>");
     content.append("</body></html>");
 //    importUi.textEdit->setPlainText(content);
     importUi.textEdit->setHtml(content);
@@ -353,6 +356,9 @@ void MainWindow::showWord(const QString &text)
     yinbiao.insert(0,"<font face='Arial'>[");
     yinbiao.append("]</font>");
     setText(infoButton_, "yinbiao", yinbiao);
+    QString definition = wordInfo.definition;
+    definition.insert(0,"<p>");
+    definition.append("</p>");
     setText(infoButton_, "cn", wordInfo.definition);
 
     //QSound::play(wordInfo.audio);
@@ -375,4 +381,10 @@ void MainWindow::addWord()
 {
     QString word = wordui.word->text();
     shanbay_->addWord(word);
+}
+
+void MainWindow::searchWord()
+{
+    QWidget * w = new QWidget;
+    w->show();
 }

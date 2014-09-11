@@ -23,14 +23,18 @@ SOURCES += main.cpp\
     data.cpp \
     classinfo.cpp \
     json.cpp \
-    shanbay.cpp
+    shanbay.cpp \
+    database.cpp \
+    article.cpp
 
 HEADERS  += mainwindow.hxx \
     nce.hxx \
     data.hxx \
     classinfo.hxx \
     json.h \
-    shanbay.hxx
+    shanbay.hxx \
+    article.hxx \
+    database.hxx
 
 FORMS    += mainwindow.ui \
     classinfo.ui \
@@ -39,3 +43,6 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     resource.qrc
+
+OTHER_FILES += \
+    readme.md

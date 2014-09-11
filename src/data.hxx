@@ -18,6 +18,8 @@ inline bool operator<(const ClassIndex &my, const ClassIndex &index)
     else if (my.nce ==index.nce) {
         if (my.class_ < index.class_)
             return true;
+        else
+            return false;
     } else
         return false;
 }
