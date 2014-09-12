@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     json.cpp \
     shanbay.cpp \
     database.cpp \
-    article.cpp
+    article.cpp \
+    books.cpp
 
 HEADERS  += mainwindow.hxx \
     nce.hxx \
@@ -34,12 +35,14 @@ HEADERS  += mainwindow.hxx \
     json.h \
     shanbay.hxx \
     article.hxx \
-    database.hxx
+    database.hxx \
+    books.hxx
 
 FORMS    += mainwindow.ui \
     classinfo.ui \
     import.ui \
-    wordinfo.ui
+    wordinfo.ui \
+    books.ui
 
 RESOURCES += \
     resource.qrc

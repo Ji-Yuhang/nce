@@ -25,7 +25,7 @@ Nce::Nce(QObject *parent) :
     for (int i = 0; i < 4; ++i) {
         QString nce = nces[i];
         for (int j = 1; j < 100; ++j) {
-            //parseFile(nce, j);
+            parseFile(nce, j);
             //replaceFile(nce, j);
         }
     }
@@ -36,7 +36,11 @@ Nce::Nce(QObject *parent) :
 
 bool Nce::parseFile(const QString &nce, int _class)
 {
-    QString path = qApp->applicationDirPath()+"/nce/";
+    QString path = qApp->applicationDirPath();
+#ifdef Q_OS_MAC
+    path += "/../../..";
+#endif
+    path += "/nce/";
     path += nce + "/";
     QString classStr = QString::number(_class);
     if (_class < 10) classStr = "0" + QString::number(_class);
