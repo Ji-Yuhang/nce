@@ -15,9 +15,7 @@ table: [known]
 table: [sentence]
  id word sentence
  可重复
- 
-table: [recite]
-id word 
+
 
 table: [history]
 查询单词的历史记录

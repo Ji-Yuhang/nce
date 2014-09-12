@@ -72,6 +72,7 @@
     </property>
     <addaction name="read"/>
     <addaction name="importFile"/>
+    <addaction name="historyArticle"/>
    </widget>
    <widget class="QMenu" name="menuS">
     <property name="title">
@@ -110,6 +111,11 @@
   <action name="word">
    <property name="text">
     <string>查单词</string>
+   </property>
+  </action>
+  <action name="historyArticle">
+   <property name="text">
+    <string>历史文章</string>
    </property>
   </action>
  </widget>
