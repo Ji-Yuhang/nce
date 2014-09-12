@@ -11,8 +11,8 @@ Books::Books(QWidget *parent) :
     addBook("NCE2");
     addBook("NCE3");
     addBook("NCE4");
-    addBook("神探狄仁杰");
-    addBook("降龙十八掌");
+    addBook("\ 神探狄仁杰\ ");
+    addBook("\ 降龙十八掌\ ");
 }
 
 void Books::addBook(const QString &path)
