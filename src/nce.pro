@@ -16,7 +16,10 @@ TARGET = nce
 TEMPLATE = app
 DESTDIR = ../ncebin
 
-QMAKE_INFO_PLIST = Info.plist
+macx {
+    QMAKE_INFO_PLIST = Info.plist
+}
+
 SOURCES += main.cpp\
         mainwindow.cpp \
     nce.cpp \

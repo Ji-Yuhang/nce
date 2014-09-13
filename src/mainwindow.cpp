@@ -137,7 +137,7 @@ void MainWindow::import()
 //    content.replace("！", "!");
 //    content.replace("！", "!");
 //    content.replace("－", "-");
-    content.insert(0,"<html><head><style type=\"text/css\">body{line-height:140%;word-spacing: 3px; font-family:Georgia,Times,\"Times New Roman\",Arial,serif ;font-size:20px;font-style:italic}</style></head><body>");
+    content.insert(0,"<html><head><style type=\"text/css\">body{line-height:140%;word-spacing: 3px; font-family:Georgia,Times,\"Times New Roman\",Arial,serif ;font-size:20px;}</style></head><body>");
     content.append("</body></html>");
 //    importUi.textEdit->setPlainText(content);
     importUi.textEdit->setHtml(content);
