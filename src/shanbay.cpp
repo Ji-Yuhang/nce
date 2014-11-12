@@ -39,9 +39,7 @@ Shanbay::Shanbay(QObject *parent) :
 
 Shanbay::~Shanbay()
 {
-    QString path = QDir::currentPath() + "/token.ini";
-    QSettings settings(path, QSettings::IniFormat);
-    settings.setValue("/token/token",QVariant(token_));
+    saveTaken();
     delete webview_;
 }
 
@@ -52,6 +50,13 @@ ShanbayWord Shanbay::wordInfo(const QString &word)
         return it.value();
     else
         return ShanbayWord();
+}
+
+void Shanbay::saveTaken()
+{
+    QString path = QDir::currentPath() + "/token.ini";
+    QSettings settings(path, QSettings::IniFormat);
+    settings.setValue("/token/token",QVariant(token_));
 }
 
 
@@ -136,8 +141,10 @@ void Shanbay::urlChanged(QUrl url)
         int index3 = tokenStr.indexOf("&");
         if (index2 != -1 && index3 != -1) {
             token_ = tokenStr.mid(index2 +1,index3 - index2 - 1);
+            saveTaken();
         } else if (index2 != -1 && index3 == -1) {
             token_ = tokenStr.mid(index2 +1);
+            saveTaken();
         }
     }
 }

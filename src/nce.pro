@@ -7,7 +7,7 @@
 QT       += core gui
 QT       += network
 #QT       += phonon
-QT       += multimedia
+#QT       += multimedia
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 QT       += webkit
 QT += webkitwidgets
@@ -18,6 +18,9 @@ DESTDIR = ../ncebin
 
 macx {
     QMAKE_INFO_PLIST = Info.plist
+}
+unix {
+TARGET = nce-linux
 }
 
 SOURCES += main.cpp\

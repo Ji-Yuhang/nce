@@ -47,6 +47,8 @@ private:
     QString token_;
     QString code_;
     QString redirect_uri_;
+private:
+    void saveTaken();
 signals:
     void wordFinished(QString);
     void mp3Filnished(QString);

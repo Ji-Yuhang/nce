@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QRegExp>
 #include <QProgressDialog>
-#include <QMessagebox>
+#include <QMessageBox>
 
 QString simpleChange(const QString& text)
 {
