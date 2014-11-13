@@ -10,10 +10,11 @@
 #include "json.h"
 
 #include <QSound>
-//#include <phonon>
+#include <phonon>
 #include <QTextCodec>
 #include "article.hxx"
 #include "database.hxx"
+#include <stdio.h>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
@@ -143,6 +144,7 @@ void MainWindow::import()
     importUi.textEdit->setHtml(content);
     import_.setWindowTitle(path_);
     import_.showNormal();
+
 }
 
 
@@ -371,10 +373,13 @@ void MainWindow::showWord(const QString &text)
 
 void MainWindow::playMp3(const QString &text)
 {
-//    QString soucrePath = QDir::currentPath() +"/mp3/"+ text;
-//    Phonon::MediaSource source(soucrePath);
-//    mediaObj_.setCurrentSource(source);
+    QString soucrePath = QDir::currentPath() +"/mp3/"+ text;
+    Phonon::MediaSource source(soucrePath);
+    mediaObj_.setCurrentSource(source);
 //    mediaObj_.play();
+    QString command = QString("mplayer ") + soucrePath ;//+ QString(" > /dev/null");
+//    system(command.toUtf8().data());
+    popen(command.toUtf8().data(), "r");
 }
 
 void MainWindow::addWord()

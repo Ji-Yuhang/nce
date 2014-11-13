@@ -1,13 +1,30 @@
 #include "classinfo.hxx"
 #include "data.hxx"
+#include <QSqlError>
+#include <QDebug>
+#include <QSqlRecord>
 ClassInfo::ClassInfo(QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent),
+    m_knownWord(0)
 {
     ui.setupUi(this);
     connect (ui.comboBox, SIGNAL(currentIndexChanged(QString)),this, SLOT(changeList(QString)));
     connect(ui.listWidget, SIGNAL(currentRowChanged(int)),this,SLOT(changeClass(int)));
     connect(ui.pushButton_list, SIGNAL(clicked()),this,SLOT(showList()));
     connect(ui.pushButton_word, SIGNAL(clicked()),this,SLOT(showWord()));
+    m_db = QSqlDatabase::addDatabase("QMYSQL");
+
+    m_db.setDatabaseName("anki_study");
+    m_db.setHostName("127.0.0.1");
+    m_db.setUserName("root");
+    m_db.setPassword("jiyuhang8757871");
+    bool s = m_db.open();
+    if (!s) {
+        qDebug() << "anki_study open ERROR";
+        QSqlError error = m_db.lastError();
+        qDebug() << error.text();
+    }
+
 }
 
 void ClassInfo::init()
@@ -42,6 +59,8 @@ void ClassInfo::changeList(QString key)
 
 void ClassInfo::changeClass(int row)
 {
+    m_knownWord = 0;
+    m_unknown.clear();
     QListWidgetItem * item =ui.listWidget->item(row);
     if (!item) return;
     QString nce = item->data(32).toString();
@@ -82,10 +101,12 @@ void ClassInfo::changeClass(int row)
                 item1->setText(vit.value().sentences.join(" "));
                 ui.tableWidget->setItem(row, 1, item1);
 
+                parseWord( vit.key().word);
                 ++row;
             }
         }
     }
+
 }
 
 void ClassInfo::showList()
@@ -98,4 +119,54 @@ void ClassInfo::showWord()
 {
     ui.tableWidget->setVisible(!ui.tableWidget->isVisible());
 
+}
+
+void ClassInfo::parseWord(const QString &word)
+{
+
+    QSqlQuery query(m_db);
+    QString sql = QString("select word_id from known_word where word='%1'").arg(word);
+    if (query.exec(sql)) {
+        if (query.next()) {
+            QSqlRecord record = query.record();
+            int id = record.value("word_id").toInt();
+            if (id != 0 )
+                m_knownWord++;
+        } else {
+            if (!m_unknown.contains(word))
+                m_unknown.append(word);
+        }
+
+
+    } else {
+        QSqlError error = m_db.lastError();
+        qDebug() << " known_word sql error: " << sql <<error.text();
+    }
+    ui.status->setText("known word : " + QString::number(m_knownWord) + "   unknown: " + QString::number(m_unknown.size()));
+}
+
+void ClassInfo::on_save_clicked()
+{
+    qDebug() << "save clicked";
+    foreach (QString word, m_unknown) {
+        QString zh = word;
+        QString sentence = word;
+        QString acticle = word;
+        int acquainted = 0;
+        int repeat = 0;
+
+//        getWord(word);
+
+
+        QSqlQuery query(m_db);
+        QString sql = QString("insert into known_word (word, zh, sentence, acticle, acquainted, repeats) value('%1','%2','%3','%4',%5,%6)")
+                .arg(word).arg(zh).arg(sentence).arg(acticle).arg(acquainted).arg(repeat);
+        if (query.exec(sql)) {
+
+        } else {
+            QSqlError error = m_db.lastError();
+            qDebug() << " word insert into known_word sql error: " << sql <<error.text();
+        }
+
+    }
 }

@@ -10,7 +10,7 @@
 #include <QNetworkReply>
 #include "shanbay.hxx"
 #include "ui_wordinfo.h"
-//#include <phonon>
+#include <phonon>
 class QWebView;
 class MainWindow : public QMainWindow
 {
@@ -50,12 +50,18 @@ private:
     Shanbay * shanbay_;
     QPushButton *infoButton_;
     Ui::WordInfo wordui;
-//    Phonon::MediaObject mediaObj_;
-//    Phonon::AudioOutput output_;
-//    Phonon::MediaSource source_;
+    Phonon::MediaObject mediaObj_;
+    Phonon::AudioOutput output_;
+    Phonon::MediaSource source_;
 
     QString lastSelectWord_;
     QTextCursor lastTextCursor_;
 };
+class Parse
+{
+public:
+    Parse();
+    ~Parse();
 
+};
 #endif // MAINWINDOW_HXX
