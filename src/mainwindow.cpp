@@ -14,16 +14,25 @@
 #include <QTextCodec>
 #include "article.hxx"
 #include "database.hxx"
+#include <QProcess>
 #include <stdio.h>
+#include <stdlib.h>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
+  ,sentence_(new QWidget)
+  ,sentenceUi_(new Ui::Sentence)
 {
     ui.setupUi(this);
     importUi.setupUi(&import_);
 //    import_.setStyleSheet();
+    sentenceUi_->setupUi(sentence_);
+    connect(sentenceUi_->parse, SIGNAL(clicked()), this, SLOT(parseSentence()));
+    
     connect(ui.tableWidget, SIGNAL(cellClicked(int,int)), this, SLOT(showInfo(int,int)));
     connect(ui.read, SIGNAL(triggered()),this,SLOT(showRead()));
     connect(ui.importFile, SIGNAL(triggered()),this,SLOT(import()));
+    connect(ui.actionSentence, SIGNAL(triggered()),this,SLOT(sentence()));
+    
     connect(importUi.indent, SIGNAL(clicked()),this, SLOT(indent()));
     connect(importUi.textEdit, SIGNAL(selectionChanged()),this ,SLOT(selectedWord()));
     connect(&netManager_, SIGNAL(finished(QNetworkReply*)),this, SLOT(readReply(QNetworkReply*)));
@@ -144,7 +153,67 @@ void MainWindow::import()
     importUi.textEdit->setHtml(content);
     import_.setWindowTitle(path_);
     import_.showNormal();
+    
+}
 
+void MainWindow::sentence()
+{
+    sentence_->showNormal();
+}
+
+void MainWindow::parseSentence()
+{
+    
+    QString text = sentenceUi_->textEdit->toPlainText();
+    qDebug() << text<<endl;
+    QStringList words;
+    words = text.split(QRegExp("\\W+"),QString::SkipEmptyParts);
+    QTableWidget* table = sentenceUi_->tableWidget;
+    table->clearContents();
+    table->clear();
+    table->setColumnCount(words.size());
+    table->setRowCount(3);
+    int col = 0;
+    QStringList vList;
+    foreach (QString w, words) {
+        QTableWidgetItem* item = new QTableWidgetItem;
+        item->setText(w);
+        table->setItem(0,col,item);
+                
+        QProcess process;
+        QString program = "I:/qtworkspace/build-dict-Desktop_Qt_5_3_0_MinGW_32bit-Release/release/dict.exe";
+        QStringList argument;
+        argument << w;
+        process.start(program,argument);
+        QString cn;
+        if (process.waitForFinished(3000))
+        {
+            QByteArray block = process.readAllStandardOutput();
+            
+            qDebug() << block<<endl;
+            cn = block;
+            if (cn.contains("v.") || cn.contains("vt."))
+                vList.append(w);
+        } else {
+            qDebug() << "process fail"<<endl;
+        }
+        
+        QTableWidgetItem* item2 = new QTableWidgetItem;
+        item2->setText(cn);
+        table->setItem(1,col,item2);
+
+        
+        col++;
+    }
+    table->setShowGrid(false);
+    table->adjustSize();
+    table->resizeColumnsToContents();
+    
+    QString html = text;
+    foreach (QString w, vList) {
+        html.replace(w,"<font color=\"red\">" + w + "</font>");
+    }
+    sentenceUi_->textEdit->setHtml(html);
 }
 
 
@@ -379,7 +448,8 @@ void MainWindow::playMp3(const QString &text)
 //    mediaObj_.play();
     QString command = QString("mplayer ") + soucrePath ;//+ QString(" > /dev/null");
 //    system(command.toUtf8().data());
-    popen(command.toUtf8().data(), "r");
+//    popen(command.toUtf8().data(), "r");
+    
 }
 
 void MainWindow::addWord()

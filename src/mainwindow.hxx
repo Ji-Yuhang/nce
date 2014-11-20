@@ -10,6 +10,8 @@
 #include <QNetworkReply>
 #include "shanbay.hxx"
 #include "ui_wordinfo.h"
+#include "ui_sentence.h"
+
 #include <phonon>
 class QWebView;
 class MainWindow : public QMainWindow
@@ -24,6 +26,8 @@ public slots:
     void showInfo(int row,int col);
     void showRead();
     void import();
+    void sentence();
+    void parseSentence();
     void indent();
     void selectedWord();
     void getWordDescription(const QString & text);
@@ -56,6 +60,8 @@ private:
 
     QString lastSelectWord_;
     QTextCursor lastTextCursor_;
+    QWidget* sentence_;
+    Ui::Sentence* sentenceUi_;
 };
 class Parse
 {

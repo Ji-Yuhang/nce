@@ -49,7 +49,8 @@ FORMS    += mainwindow.ui \
     classinfo.ui \
     import.ui \
     wordinfo.ui \
-    books.ui
+    books.ui \
+    sentence.ui
 
 RESOURCES += \
     resource.qrc
