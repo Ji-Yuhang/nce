@@ -57,7 +57,7 @@
      <x>0</x>
      <y>0</y>
      <width>566</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -80,9 +80,16 @@
     </property>
     <addaction name="word"/>
    </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>句子</string>
+    </property>
+    <addaction name="actionSentence"/>
+   </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
    <addaction name="menuS"/>
+   <addaction name="menu_3"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -116,6 +123,11 @@
   <action name="historyArticle">
    <property name="text">
     <string>历史文章</string>
+   </property>
+  </action>
+  <action name="actionSentence">
+   <property name="text">
+    <string>句子分析</string>
    </property>
   </action>
  </widget>

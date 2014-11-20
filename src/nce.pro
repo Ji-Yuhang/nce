@@ -6,7 +6,7 @@
 
 QT       += core gui
 QT       += network
-QT       += phonon
+#QT       += phonon
 QT       += sql
 #QT       += multimedia
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -49,7 +49,8 @@ FORMS    += mainwindow.ui \
     classinfo.ui \
     import.ui \
     wordinfo.ui \
-    books.ui
+    books.ui \
+    sentence.ui
 
 RESOURCES += \
     resource.qrc

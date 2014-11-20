@@ -10,7 +10,11 @@
 #include <QNetworkReply>
 #include "shanbay.hxx"
 #include "ui_wordinfo.h"
-#include <phonon>
+
+//#include <phonon>
+
+#include "ui_sentence.h"
+
 class QWebView;
 class MainWindow : public QMainWindow
 {
@@ -24,6 +28,8 @@ public slots:
     void showInfo(int row,int col);
     void showRead();
     void import();
+    void sentence();
+    void parseSentence();
     void indent();
     void selectedWord();
     void getWordDescription(const QString & text);
@@ -50,12 +56,14 @@ private:
     Shanbay * shanbay_;
     QPushButton *infoButton_;
     Ui::WordInfo wordui;
-    Phonon::MediaObject mediaObj_;
-    Phonon::AudioOutput output_;
-    Phonon::MediaSource source_;
+//    Phonon::MediaObject mediaObj_;
+//    Phonon::AudioOutput output_;
+//    Phonon::MediaSource source_;
 
     QString lastSelectWord_;
     QTextCursor lastTextCursor_;
+    QWidget* sentence_;
+    Ui::Sentence* sentenceUi_;
 };
 class Parse
 {
