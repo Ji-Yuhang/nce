@@ -15,6 +15,7 @@
 
 #include "ui_sentence.h"
 
+
 class QWebView;
 class MainWindow : public QMainWindow
 {
