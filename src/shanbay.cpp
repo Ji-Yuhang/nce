@@ -4,7 +4,7 @@
 #include <QDir>
 #include <QFile>
 #include <QMessageBox>
-#include <QSound>
+//#include <QSound>
 #include <QTemporaryFile>
 #include <QSettings>
 Shanbay::Shanbay(QObject *parent) :

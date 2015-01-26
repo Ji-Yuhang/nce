@@ -9,7 +9,7 @@
 #include <QWebView>
 #include "json.h"
 
-#include <QSound>
+//#include <QSound>
 //#include <phonon>
 #include <QTextCodec>
 #include "article.hxx"
