@@ -3,11 +3,15 @@
 
 #include <QObject>
 #include <QStringList>
+#include <QMap>
 class Article : public QObject
 {
     Q_OBJECT
 public:
     explicit Article(QObject *parent = 0);
+    QStringList allWord() {return words_;}
+    bool known(const QString& word);
+    QStringList unKnownWordList();
 
 signals:
     void parseFinished();
@@ -17,6 +21,7 @@ public slots:
 
 protected:
     void parseWord(const QString& word);
+    QMap<QString,int> wordKnownMap_;
     QStringList words_;
     QStringList wordsKnown_;
     QStringList wordsNotKnown_;

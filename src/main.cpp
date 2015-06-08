@@ -2,6 +2,8 @@
 #include <QApplication>
 #include <QTextCodec>
 #include "books.hxx"
+#include "articlewidget.h"
+#include "database.hxx"
 int main(int argc, char *argv[])
 {
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
@@ -10,14 +12,13 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 #endif
     QApplication a(argc, argv);
-
-    MainWindow w;
-    w.setWindowTitle("New Concept");
-    w.show();
-    w.init();
-
-//    Books book;
-//    book.show();
+    Database db;
+//    MainWindow w;
+//    w.setWindowTitle("New Concept");
+//    w.show();
+//    w.init();
+    ArticleWidget aw;
+    aw.show();
 
     return a.exec();
 }

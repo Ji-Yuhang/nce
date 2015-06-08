@@ -27,12 +27,12 @@ MainWindow::MainWindow(QWidget *parent) :
 //    import_.setStyleSheet();
     sentenceUi_->setupUi(sentence_);
     connect(sentenceUi_->parse, SIGNAL(clicked()), this, SLOT(parseSentence()));
-    
+
     connect(ui.tableWidget, SIGNAL(cellClicked(int,int)), this, SLOT(showInfo(int,int)));
     connect(ui.read, SIGNAL(triggered()),this,SLOT(showRead()));
     connect(ui.importFile, SIGNAL(triggered()),this,SLOT(import()));
     connect(ui.actionSentence, SIGNAL(triggered()),this,SLOT(sentence()));
-    
+
     connect(importUi.indent, SIGNAL(clicked()),this, SLOT(indent()));
     connect(importUi.textEdit, SIGNAL(selectionChanged()),this ,SLOT(selectedWord()));
     connect(&netManager_, SIGNAL(finished(QNetworkReply*)),this, SLOT(readReply(QNetworkReply*)));
@@ -62,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //    Phonon::createPath(&mediaObj_, &output_);
 }
 
-void MainWindow::init()
+void MainWindow::init() // initilaize
 {
     typedef QMultiMap<QString, WordInfo> WordList;
     QStringList list;
@@ -103,7 +103,7 @@ void MainWindow::init()
     ui.tableWidget->resizeColumnsToContents();
     ui.tableWidget->setColumnWidth(1,150);
 
-    classInfo_.init();
+//    classInfo_.init();
 }
 
 void MainWindow::showInfo(int row,int col)
@@ -153,7 +153,7 @@ void MainWindow::import()
     importUi.textEdit->setHtml(content);
     import_.setWindowTitle(path_);
     import_.showNormal();
-    
+
 }
 
 void MainWindow::sentence()
@@ -163,7 +163,7 @@ void MainWindow::sentence()
 
 void MainWindow::parseSentence()
 {
-    
+
     QString text = sentenceUi_->textEdit->toPlainText();
     qDebug() << text<<endl;
     QStringList words;
@@ -179,7 +179,7 @@ void MainWindow::parseSentence()
         QTableWidgetItem* item = new QTableWidgetItem;
         item->setText(w);
         table->setItem(0,col,item);
-                
+
         QProcess process;
         QString program = "I:/qtworkspace/build-dict-Desktop_Qt_5_3_0_MinGW_32bit-Release/release/dict.exe";
         QStringList argument;
@@ -189,7 +189,7 @@ void MainWindow::parseSentence()
         if (process.waitForFinished(3000))
         {
             QByteArray block = process.readAllStandardOutput();
-            
+
             qDebug() << block<<endl;
             cn = block;
             if (cn.contains("v.") || cn.contains("vt."))
@@ -197,18 +197,18 @@ void MainWindow::parseSentence()
         } else {
             qDebug() << "process fail"<<endl;
         }
-        
+
         QTableWidgetItem* item2 = new QTableWidgetItem;
         item2->setText(cn);
         table->setItem(1,col,item2);
 
-        
+
         col++;
     }
     table->setShowGrid(false);
     table->adjustSize();
     table->resizeColumnsToContents();
-    
+
     QString html = text;
     foreach (QString w, vList) {
         html.replace(w,"<font color=\"red\">" + w + "</font>");
@@ -240,7 +240,7 @@ void MainWindow::indent()
         qDebug() << "Read File Error!"+ path_;
         return ;
     }
-    
+
     file.write(newString.toLatin1());
     file.close();
     */
@@ -275,7 +275,7 @@ void MainWindow::selectedWord()
     getWordDescription(text);
     lastSelectWord_ = text;
     lastTextCursor_ = cursor;
-    
+
 }
 
 void MainWindow::getWordDescription(const QString &text)
@@ -283,12 +283,12 @@ void MainWindow::getWordDescription(const QString &text)
 
 //    getToken();
     getWord(text);
-    
+
 }
 
 void MainWindow::showDescription()
 {
-    
+
 }
 
 void MainWindow::readReply(QNetworkReply *reply)
@@ -300,7 +300,7 @@ void MainWindow::readReply(QNetworkReply *reply)
     QByteArray block = reply->readAll();
     if (redirect.isValid())
         netManager_.get(QNetworkRequest(QUrl(redirect)));
-    
+
 
     QString ss = block;
 
@@ -327,7 +327,7 @@ void MainWindow::readReply(QNetworkReply *reply)
     QString audio;
     QString uk_audio;
     QString us_audio;
-    
+
     if (obj.contains("access_token")) token = obj["access_token"];
     if (obj.contains("token_type")) type = obj["token_type"];
     if (obj.contains("expires_in")) expire = obj["expires_in"];
@@ -449,7 +449,7 @@ void MainWindow::playMp3(const QString &text)
     QString command = QString("mplayer ") + soucrePath ;//+ QString(" > /dev/null");
 //    system(command.toUtf8().data());
 //    popen(command.toUtf8().data(), "r");
-    
+
 }
 
 void MainWindow::addWord()

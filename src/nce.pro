@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     shanbay.cpp \
     database.cpp \
     article.cpp \
-    books.cpp
+    books.cpp \
+    articlewidget.cpp
 
 HEADERS  += mainwindow.hxx \
     nce.hxx \
@@ -43,14 +44,16 @@ HEADERS  += mainwindow.hxx \
     shanbay.hxx \
     article.hxx \
     database.hxx \
-    books.hxx
+    books.hxx \
+    articlewidget.h
 
 FORMS    += mainwindow.ui \
     classinfo.ui \
     import.ui \
     wordinfo.ui \
     books.ui \
-    sentence.ui
+    sentence.ui \
+    articlewidget.ui
 
 RESOURCES += \
     resource.qrc
