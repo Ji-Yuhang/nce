@@ -28,18 +28,6 @@ WordInfo Article::wordInfo(int word_id)
 
 }
 
-//QStringList Article::unKnownWordList()
-//{
-//    QStringList list;
-//    QMap<QString,int>::iterator it = wordKnownMap_.begin();
-//    for (; it != wordKnownMap_.end(); ++it) {
-//        if (it.value() == 0) {
-//            list.append(it.key());
-//        }
-//    }
-//    return list;
-//}
-
 void Article::parseArticle(const QString &article)
 {
     wordInfoList_.clear();
@@ -78,8 +66,27 @@ void Article::parseWord(const QString &word)
     info.word_id = wordid;
     info.word = word;
     info.familiarity = familiarity;
-    wordInfoList_.append(info);
-    if (info.familiarity  == 0)
-        unknownWordInfoList_.append(info);
+
+    bool flag1 = true;
+
+    Q_FOREACH (WordInfo temp, wordInfoList_) {
+        if (temp.word_id == wordid) {
+            flag1 = false;
+            break;
+        }
+    }
+    if (flag1) wordInfoList_.append(info);
+
+    bool flag2 = true;
+    Q_FOREACH (WordInfo temp, unknownWordInfoList_) {
+        if (temp.word_id == wordid) {
+            flag2 = false;
+            break;
+        }
+    }
+    if (flag2) {
+        if (info.familiarity  == 0)
+            unknownWordInfoList_.append(info);
+    }
 
 }

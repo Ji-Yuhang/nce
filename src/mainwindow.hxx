@@ -15,7 +15,7 @@
 
 #include "ui_sentence.h"
 
-
+class UnknownWordListWidget;
 class QWebView;
 class MainWindow : public QMainWindow
 {
@@ -23,6 +23,8 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+    static MainWindow* instancte() {return g_mainwindow_;}
     Nce nce;
     void init();
 public slots:
@@ -45,8 +47,9 @@ public slots:
     void playMp3(const QString & text);
     void addWord();
     void searchWord();
+    void showUnknownList();
 private:
-
+    static MainWindow* g_mainwindow_;
     Ui::MainWindow ui;
     ClassInfo classInfo_;
     QWidget import_;
@@ -65,6 +68,7 @@ private:
     QTextCursor lastTextCursor_;
     QWidget* sentence_;
     Ui::Sentence* sentenceUi_;
+    UnknownWordListWidget* unknownWordListWidget_;
 };
 class Parse
 {
@@ -73,4 +77,5 @@ public:
     ~Parse();
 
 };
+#define MW MainWindow::instancte()
 #endif // MAINWINDOW_HXX

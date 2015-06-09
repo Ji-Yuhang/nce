@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     database.cpp \
     article.cpp \
     books.cpp \
-    articlewidget.cpp
+    articlewidget.cpp \
+    unknownwordlistwidget.cpp
 
 HEADERS  += mainwindow.hxx \
     nce.hxx \
@@ -45,7 +46,8 @@ HEADERS  += mainwindow.hxx \
     article.hxx \
     database.hxx \
     books.hxx \
-    articlewidget.h
+    articlewidget.h \
+    unknownwordlistwidget.hxx
 
 FORMS    += mainwindow.ui \
     classinfo.ui \
@@ -53,7 +55,8 @@ FORMS    += mainwindow.ui \
     wordinfo.ui \
     books.ui \
     sentence.ui \
-    articlewidget.ui
+    articlewidget.ui \
+    unknownwordlistwidget.ui
 
 RESOURCES += \
     resource.qrc

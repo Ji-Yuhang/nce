@@ -57,7 +57,7 @@
      <x>0</x>
      <y>0</y>
      <width>566</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -79,6 +79,7 @@
      <string>单词</string>
     </property>
     <addaction name="word"/>
+    <addaction name="actionUnknown_word_list"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
@@ -128,6 +129,11 @@
   <action name="actionSentence">
    <property name="text">
     <string>句子分析</string>
+   </property>
+  </action>
+  <action name="actionUnknown_word_list">
+   <property name="text">
+    <string>unknown word list</string>
    </property>
   </action>
  </widget>

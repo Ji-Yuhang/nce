@@ -17,11 +17,18 @@
 #include <QProcess>
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
+#include "unknownwordlistwidget.hxx"
+
+MainWindow* MainWindow::g_mainwindow_ = 0;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
   ,sentence_(new QWidget)
   ,sentenceUi_(new Ui::Sentence)
+  ,unknownWordListWidget_(new UnknownWordListWidget)
 {
+    assert(!g_mainwindow_);
+    g_mainwindow_ = this;
     ui.setupUi(this);
     importUi.setupUi(&import_);
 //    import_.setStyleSheet();
@@ -32,6 +39,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui.read, SIGNAL(triggered()),this,SLOT(showRead()));
     connect(ui.importFile, SIGNAL(triggered()),this,SLOT(import()));
     connect(ui.actionSentence, SIGNAL(triggered()),this,SLOT(sentence()));
+    connect(ui.actionUnknown_word_list, SIGNAL(triggered()),this,SLOT(showUnknownList()));
+
 
     connect(importUi.indent, SIGNAL(clicked()),this, SLOT(indent()));
     connect(importUi.textEdit, SIGNAL(selectionChanged()),this ,SLOT(selectedWord()));
@@ -60,6 +69,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(wordui.add, SIGNAL(clicked()), this, SLOT(addWord()));
     connect(ui.word, SIGNAL(triggered()), this, SLOT(searchWord()));
 //    Phonon::createPath(&mediaObj_, &output_);
+}
+MainWindow::~MainWindow()
+{
+    delete sentence_;
+    delete sentenceUi_;
+    delete unknownWordListWidget_;
 }
 
 void MainWindow::init() // initilaize
@@ -446,7 +461,7 @@ void MainWindow::playMp3(const QString &text)
 //    Phonon::MediaSource source(soucrePath);
 //    mediaObj_.setCurrentSource(source);
 //    mediaObj_.play();
-    QString command = QString("mplayer ") + soucrePath ;//+ QString(" > /dev/null");
+//    QString command = QString("mplayer ") + soucrePath ;//+ QString(" > /dev/null");
 //    system(command.toUtf8().data());
 //    popen(command.toUtf8().data(), "r");
 
@@ -462,4 +477,12 @@ void MainWindow::searchWord()
 {
     QWidget * w = new QWidget;
     w->show();
+}
+
+void MainWindow::showUnknownList()
+{
+    unknownWordListWidget_->show();
+    unknownWordListWidget_->activateWindow();
+    unknownWordListWidget_->getUnknownWord();
+
 }

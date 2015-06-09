@@ -126,3 +126,26 @@ bool Database::setWordFamiliarity(int word_id, int familiarity)
     }
     return false;
 }
+
+QList<WordInfo> Database::getAllUnknown()
+{
+    QList<WordInfo> all;
+    QSqlQuery query(db_);
+    QString sql = QString("select *from wordlist where word_id in (select word_id from unknown_word where familiarity=0)");
+    if (query.exec(sql)) {
+        while (query.next()) {
+            int wordid = query.value(0).toInt();
+            QString word = query.value(1).toString();
+            int familiarity = 0;
+            WordInfo info;
+            info.word_id = wordid;
+            info.word = word;
+            info.familiarity = familiarity;
+            all.append(info);
+        }
+    } else {
+        QString error = query.lastError().text();
+        qDebug() << "sql exec error: "<< error;
+    }
+    return all;
+}

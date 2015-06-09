@@ -39,6 +39,7 @@ private slots:
     void onPreviewUnknowButtonClicked();
     void onPreviewKnowButtonClicked();
 
+    void onItemEntered(QTableWidgetItem* item);
 private:
     void clearTable(QTableWidget* table);
     Ui::ArticleWidget *ui;

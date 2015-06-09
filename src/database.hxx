@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QSqlDatabase>
+#include "article.hxx"
 class Database : public QObject
 {
     Q_OBJECT
@@ -17,6 +18,7 @@ public:
     int wordFamiliarity(int word_id);
     bool insertNewFamiliarity(int word_id);
     bool setWordFamiliarity(int word_id, int familiarity);
+    QList<WordInfo> getAllUnknown();
 
 
 signals:

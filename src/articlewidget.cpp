@@ -3,14 +3,21 @@
 #include "article.hxx"
 #include <QTableWidgetItem>
 #include <QDebug>
+#include <QMessageBox>
+#include <QTimer>
 #include "database.hxx"
 #include <assert.h>
+#include "mainwindow.hxx"
 ArticleWidget::ArticleWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ArticleWidget),
-    currentArticle_(0)
+    currentArticle_(new Article)
 {
     ui->setupUi(this);
+    connect(ui->unknownList, SIGNAL(itemEntered(QTableWidgetItem*)), this, SLOT(onItemEntered(QTableWidgetItem*)));
+    connect(ui->previewKnowList, SIGNAL(itemEntered(QTableWidgetItem*)), this, SLOT(onItemEntered(QTableWidgetItem*)));
+    connect(ui->previewUnknowList, SIGNAL(itemEntered(QTableWidgetItem*)), this, SLOT(onItemEntered(QTableWidgetItem*)));
+
 }
 
 ArticleWidget::~ArticleWidget()
@@ -76,6 +83,9 @@ void ArticleWidget::on_parse_clicked()
         row++;
 
     }
+    QMessageBox * msg = new QMessageBox(QMessageBox::NoIcon,"finished","parse finished");
+    msg->exec();
+    QTimer::singleShot(500, msg, SLOT(accept()));
 }
 
 void ArticleWidget::onKnowButtonClicked()
@@ -225,6 +235,9 @@ void ArticleWidget::on_saveWordStatus_clicked()
 
         }
     }
+    QMessageBox * msg = new QMessageBox(QMessageBox::NoIcon,"finished","save finished");
+    msg->exec();
+    QTimer::singleShot(500, msg, SLOT(accept()));
 }
 
 void ArticleWidget::onPreviewUnknowButtonClicked()
@@ -276,6 +289,16 @@ void ArticleWidget::onPreviewKnowButtonClicked()
     unKnwonButton->setProperty("knownRow", QVariant::fromValue(row));
     connect(unKnwonButton, SIGNAL(clicked()), this, SLOT(onUnknowButtonClicked()));
     connect(unKnwonButton, SIGNAL(clicked()), this, SLOT(onPreviewUnknowButtonClicked()));
+}
+
+void ArticleWidget::onItemEntered(QTableWidgetItem *item)
+{
+    static QTableWidgetItem* last = 0;
+    if (last != item) {
+        if (item->text() != "unknown" && item->text() != "known")
+        MW->getWord(item->text());
+    }
+    last = item;
 }
 
 void ArticleWidget::clearTable(QTableWidget *table)
