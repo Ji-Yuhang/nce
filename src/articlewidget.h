@@ -7,6 +7,7 @@ namespace Ui {
 class ArticleWidget;
 }
 class Article;
+class QTableWidget;
 class QTableWidgetItem;
 class ArticleWidget : public QWidget
 {
@@ -23,7 +24,7 @@ private slots:
 
     void onKnowButtonClicked();
     void onUnknowButtonClicked();
-    void setWordStatus(const QString& word, int status);
+    void setWordStatus(int word, int status);
 
     void on_allKnown_clicked();
 
@@ -35,10 +36,14 @@ private slots:
 
     void on_saveWordStatus_clicked();
 
+    void onPreviewUnknowButtonClicked();
+    void onPreviewKnowButtonClicked();
+
 private:
+    void clearTable(QTableWidget* table);
     Ui::ArticleWidget *ui;
     Article* currentArticle_;
-    QMap<QString, QTableWidgetItem*> wordstatusItemMap_;
+    QMap<int, QTableWidgetItem*> wordstatusItemMap_;
 };
 
 #endif // ARTICLEWIDGET_H

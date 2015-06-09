@@ -13,9 +13,9 @@ int main(int argc, char *argv[])
 #endif
     QApplication a(argc, argv);
     Database db;
-//    MainWindow w;
-//    w.setWindowTitle("New Concept");
-//    w.show();
+    MainWindow w;
+    w.setWindowTitle("New Concept");
+    w.show();
 //    w.init();
     ArticleWidget aw;
     aw.show();

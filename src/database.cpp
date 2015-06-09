@@ -10,7 +10,7 @@ Database::Database(QObject *parent) :
 {
     assert(!g_db);
     g_db = this;
-    db_ = QSqlDatabase::addDatabase("QMYSQL");
+    db_ = QSqlDatabase::addDatabase("QMYSQL","english");
 
     db_.setDatabaseName("english");
     db_.setHostName("rds1m2iqskhitpx6nmx7u.mysql.rds.aliyuncs.com");
@@ -38,7 +38,6 @@ int Database::haveWord(const QString &word)
             int wordid = query.value(0).toInt();
             return wordid;
         }
-
     } else {
         QString error = query.lastError().text();
         qDebug() << "sql exec error: "<< error;
@@ -47,12 +46,83 @@ int Database::haveWord(const QString &word)
 
 }
 
-bool Database::insertNewWord(const QString &word, bool &ok)
+bool Database::insertNewWord(const QString &word)
 {
+    QSqlQuery query(db_);
+    QString sql = QString("insert into wordlist (content) values('%1')").arg(word);
+    if (query.exec(sql)) {
+        return true;
+    } else {
+        QString error = query.lastError().text();
+        qDebug() << "sql exec error: "<< error;
+        return false;
+    }
     return false;
 }
 
-bool Database::setWordStatus(int word_id, int status)
+//bool Database::setWordStatus(int word_id, int status)
+//{
+//    return false;
+//}
+
+int Database::unKnowWord(int word_id)
 {
+    QSqlQuery query(db_);
+    QString sql = QString("select unknown_id,familiarity from unknown_word where word_id=%1").arg(word_id);
+    if (query.exec(sql)) {
+        while (query.next()) {
+            int wordid = query.value(0).toInt();
+            int familiarity = query.value(1).toInt();
+            return wordid;
+        }
+    } else {
+        QString error = query.lastError().text();
+        qDebug() << "sql exec error: "<< error;
+    }
+    return 0;
+}
+
+int Database::wordFamiliarity(int word_id)
+{
+    QSqlQuery query(db_);
+    QString sql = QString("select unknown_id,familiarity from unknown_word where word_id=%1").arg(word_id);
+    if (query.exec(sql)) {
+        while (query.next()) {
+            int wordid = query.value(0).toInt();
+            int familiarity = query.value(1).toInt();
+            return familiarity;
+        }
+    } else {
+        QString error = query.lastError().text();
+        qDebug() << "sql exec error: "<< error;
+    }
+    return -1;
+}
+
+bool Database::insertNewFamiliarity(int word_id)
+{
+    QSqlQuery query(db_);
+    QString sql = QString("insert into unknown_word (word_id,familiarity) values(%1,0)").arg(word_id);
+    if (query.exec(sql)) {
+        return true;
+    } else {
+        QString error = query.lastError().text();
+        qDebug() << "sql exec error: "<< error;
+        return false;
+    }
+    return false;
+}
+
+bool Database::setWordFamiliarity(int word_id, int familiarity)
+{
+    QSqlQuery query(db_);
+    QString sql = QString("update unknown_word set familiarity= %1 where word_id=%2").arg(familiarity).arg(word_id);
+    if (query.exec(sql)) {
+        return true;
+    } else {
+        QString error = query.lastError().text();
+        qDebug() << "sql exec error: "<< error;
+        return false;
+    }
     return false;
 }

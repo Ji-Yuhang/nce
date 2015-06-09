@@ -4,14 +4,25 @@
 #include <QObject>
 #include <QStringList>
 #include <QMap>
+struct WordInfo {
+    int word_id;
+    QString word;
+    int familiarity;
+};
+
 class Article : public QObject
 {
     Q_OBJECT
 public:
     explicit Article(QObject *parent = 0);
-    QStringList allWord() {return words_;}
+//    QStringList allWord() {return words_;}
     bool known(const QString& word);
-    QStringList unKnownWordList();
+//    QStringList unKnownWordList();
+    QList<WordInfo> unknownWordInfoList() {return unknownWordInfoList_;}
+    QList<WordInfo> allWordInfoList() {return wordInfoList_;}
+    WordInfo wordInfo(int word_id);
+
+//    WordInfo wordInfo();
 
 signals:
     void parseFinished();
@@ -21,6 +32,9 @@ public slots:
 
 protected:
     void parseWord(const QString& word);
+    QList<WordInfo> wordInfoList_;
+    QList<WordInfo> unknownWordInfoList_;
+
     QMap<QString,int> wordKnownMap_;
     QStringList words_;
     QStringList wordsKnown_;

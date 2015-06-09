@@ -71,7 +71,7 @@ bool Nce::parseFile(const QString &nce, int _class)
     foreach (QString sentence, sentenceList) {
         QStringList wordList;
         wordList = sentence.split(QRegExp("\\W+"), QString::SkipEmptyParts);
-        WordInfo wordInfo;
+        NceWordInfo wordInfo;
         wordInfo.index = index;
 //        wordInfo.sentences.push_back(sentence);
         foreach (QString w, wordList) {
@@ -82,7 +82,7 @@ bool Nce::parseFile(const QString &nce, int _class)
             for (WordMap::iterator it = wordMap.begin(), ie = wordMap.end();
                  it != ie; ++it){
                 if (it.key() == word) {
-                    WordInfo& info = it.value();
+                    NceWordInfo& info = it.value();
                     info.sentences.push_back(sentence);
                     info.sentences.removeDuplicates();
                 }
@@ -117,7 +117,7 @@ bool Nce::parseWord()
         WordMap::iterator wit = wordMap.begin(), wiE = wordMap.end();
         for (; wit != wiE; ++wit) {
             Word word = wit.key();
-            WordInfo info = wit.value();
+            NceWordInfo info = wit.value();
             QString w = word.word;
             QStringList wl = info.sentences;
             data_.wordList_.insert(w,info);

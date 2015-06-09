@@ -64,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::init() // initilaize
 {
-    typedef QMultiMap<QString, WordInfo> WordList;
+    typedef QMultiMap<QString, NceWordInfo> WordList;
     QStringList list;
     typedef QMap<QString,int> ValueMap;
     ValueMap vm;
@@ -112,7 +112,7 @@ void MainWindow::showInfo(int row,int col)
     WordList::iterator it =  nce.data_.wordList_.find(word);
     if (it == nce.data_.wordList_.end())
         return;
-    WordInfo info = it.value();
+    NceWordInfo info = it.value();
     QString text;
     text += info.index.nce + " " + QString::number(info.index.class_) + ":\n";
     foreach (QString s, info.sentences) {

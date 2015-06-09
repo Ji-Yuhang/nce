@@ -45,15 +45,15 @@ inline bool operator==(const Word &my, const Word &w)
 {
     return (my.word == w.word);
 }
-struct WordInfo
+struct NceWordInfo
 {
     ClassIndex index;
     QStringList sentences;
 };
-typedef QMultiMap<Word, WordInfo> WordMap;
+typedef QMultiMap<Word, NceWordInfo> WordMap;
 typedef QMultiMap<ClassIndex, WordMap> ClassMap;
 typedef QMap<ClassIndex, QString> ClassContent;
-typedef QMultiMap<QString, WordInfo> WordList;
+typedef QMultiMap<QString, NceWordInfo> WordList;
 struct Data : public QObject
 {
     Q_OBJECT

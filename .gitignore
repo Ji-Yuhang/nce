@@ -7,6 +7,7 @@ build*/*
 ncebin/*.exe
 ncebin/*.ilk
 ncebin/*.pdb
+ncebin/plugins
 *.mp3
 src/Win32/*
 src/Debug/*
