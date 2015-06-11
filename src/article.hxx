@@ -19,6 +19,7 @@ public:
     bool known(const QString& word);
 //    QStringList unKnownWordList();
     QList<WordInfo> unknownWordInfoList() {return unknownWordInfoList_;}
+    QList<WordInfo> signedUnknownWordInfoList(){return signedUnknownWordInfoList_;}
     QList<WordInfo> allWordInfoList() {return wordInfoList_;}
     WordInfo wordInfo(int word_id);
 
@@ -34,6 +35,7 @@ protected:
     void parseWord(const QString& word);
     QList<WordInfo> wordInfoList_;
     QList<WordInfo> unknownWordInfoList_;
+    QList<WordInfo> signedUnknownWordInfoList_;
 
     QMap<QString,int> wordKnownMap_;
     QStringList words_;

@@ -32,6 +32,7 @@ void Article::parseArticle(const QString &article)
 {
     wordInfoList_.clear();
     unknownWordInfoList_.clear();
+    signedUnknownWordInfoList_.clear();
     int size = article.size();
     words_ = article.split(QRegExp("\\W+"),QString::SkipEmptyParts);
     words_.removeDuplicates();
@@ -55,17 +56,27 @@ void Article::parseWord(const QString &word)
 
     int familiarity = DB->wordFamiliarity(wordid);
 
-    if (familiarity < 0) {
-        DB->insertNewFamiliarity(wordid);
-        familiarity = DB->wordFamiliarity(wordid);
-        assert(familiarity >= 0);
-    }
-    qDebug() <<word<<" id : "<< wordid << "     familiarity : "<<familiarity;
-
     WordInfo info;
     info.word_id = wordid;
     info.word = word;
     info.familiarity = familiarity;
+    // TODO: need verify weather have parsed or not
+    if (familiarity < 0) {
+        // TODO: new word have not parsed
+        DB->insertNewFamiliarity(wordid);
+        familiarity = DB->wordFamiliarity(wordid);
+        info.familiarity = familiarity;
+        assert(familiarity >= 0);
+    } else if (familiarity == 0 ) {
+        // TODO: have signed unknown
+        signedUnknownWordInfoList_.append(info);
+    } else if (familiarity == 1) {
+        // TODO: known this word
+
+    }
+    qDebug() <<word<<" id : "<< wordid << "     familiarity : "<<familiarity;
+
+
 
     bool flag1 = true;
 

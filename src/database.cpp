@@ -31,6 +31,7 @@ Database *Database::instance()
 
 int Database::haveWord(const QString &word)
 {
+    if (!db_.isOpen())db_.open();
     QSqlQuery query(db_);
     QString sql = QString("select word_id from wordlist where content='%1'").arg(word);
     if (query.exec(sql)) {
@@ -48,6 +49,7 @@ int Database::haveWord(const QString &word)
 
 bool Database::insertNewWord(const QString &word)
 {
+    if (!db_.isOpen())db_.open();
     QSqlQuery query(db_);
     QString sql = QString("insert into wordlist (content) values('%1')").arg(word);
     if (query.exec(sql)) {
@@ -67,6 +69,8 @@ bool Database::insertNewWord(const QString &word)
 
 int Database::unKnowWord(int word_id)
 {
+    if (!db_.isOpen())db_.open();
+
     QSqlQuery query(db_);
     QString sql = QString("select unknown_id,familiarity from unknown_word where word_id=%1").arg(word_id);
     if (query.exec(sql)) {
@@ -84,6 +88,8 @@ int Database::unKnowWord(int word_id)
 
 int Database::wordFamiliarity(int word_id)
 {
+    if (!db_.isOpen())db_.open();
+
     QSqlQuery query(db_);
     QString sql = QString("select unknown_id,familiarity from unknown_word where word_id=%1").arg(word_id);
     if (query.exec(sql)) {
@@ -101,6 +107,8 @@ int Database::wordFamiliarity(int word_id)
 
 bool Database::insertNewFamiliarity(int word_id)
 {
+    if (!db_.isOpen())db_.open();
+
     QSqlQuery query(db_);
     QString sql = QString("insert into unknown_word (word_id,familiarity) values(%1,0)").arg(word_id);
     if (query.exec(sql)) {
@@ -115,6 +123,8 @@ bool Database::insertNewFamiliarity(int word_id)
 
 bool Database::setWordFamiliarity(int word_id, int familiarity)
 {
+    if (!db_.isOpen())db_.open();
+
     QSqlQuery query(db_);
     QString sql = QString("update unknown_word set familiarity= %1 where word_id=%2").arg(familiarity).arg(word_id);
     if (query.exec(sql)) {
@@ -129,6 +139,8 @@ bool Database::setWordFamiliarity(int word_id, int familiarity)
 
 QList<WordInfo> Database::getAllUnknown()
 {
+    if (!db_.isOpen())db_.open();
+
     QList<WordInfo> all;
     QSqlQuery query(db_);
     QString sql = QString("select *from wordlist where word_id in (select word_id from unknown_word where familiarity=0)");

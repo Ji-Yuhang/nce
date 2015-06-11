@@ -38,6 +38,7 @@ void ArticleWidget::on_parse_clicked()
     currentArticle_->parseArticle(text);
     QList<WordInfo> allword = currentArticle_->allWordInfoList();
     QList<WordInfo> unknownList = currentArticle_->unknownWordInfoList();
+    QList<WordInfo> signedUnknownList = currentArticle_->signedUnknownWordInfoList();
 
     {
         int a = allword.size();
@@ -60,6 +61,8 @@ void ArticleWidget::on_parse_clicked()
     int row = 0;
     Q_FOREACH(WordInfo wordinfo, unknownList) {
 
+
+
         table->setItem(row,0,new QTableWidgetItem(wordinfo.word));
         QString known = wordinfo.familiarity > 1 ? "knwon":"unknown";
         QTableWidgetItem* statusItem = new QTableWidgetItem(known);
@@ -80,8 +83,22 @@ void ArticleWidget::on_parse_clicked()
         connect(unKnwonButton, SIGNAL(clicked()), this, SLOT(onUnknowButtonClicked()));
 
         wordstatusItemMap_.insert(wordinfo.word_id,statusItem);
-        row++;
 
+        {
+            bool flag = false;
+            Q_FOREACH(WordInfo signedWordInfo, signedUnknownList) {
+                if (signedWordInfo.word_id == wordinfo.word_id) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) {
+                statusItem->setBackgroundColor(Qt::yellow);
+                table->setCellWidget(row,2,0);
+                table->setCellWidget(row,3,0);
+            }
+        }
+        row++;
     }
     QMessageBox * msg = new QMessageBox(QMessageBox::NoIcon,"finished","parse finished");
     msg->exec();
@@ -137,9 +154,21 @@ void ArticleWidget::setWordStatus(int word_id, int status)
 void ArticleWidget::on_allKnown_clicked()
 {
     QList<WordInfo> unknownList = currentArticle_->unknownWordInfoList();
+    QList<WordInfo> signedUnknownList = currentArticle_->signedUnknownWordInfoList();
 
     Q_FOREACH(WordInfo wordinfo, unknownList) {
-        setWordStatus(wordinfo.word_id,1);
+
+        bool flag = false;
+        Q_FOREACH(WordInfo signedWordInfo, signedUnknownList) {
+            if (signedWordInfo.word_id == wordinfo.word_id) {
+                flag = true;
+                break;
+            }
+        }
+        if (!flag) {
+            setWordStatus(wordinfo.word_id,1);
+        }
+
     }
     ui->unknownList->update();
 }
@@ -147,9 +176,19 @@ void ArticleWidget::on_allKnown_clicked()
 void ArticleWidget::on_allUnknown_clicked()
 {
     QList<WordInfo> unknownList = currentArticle_->unknownWordInfoList();
+    QList<WordInfo> signedUnknownList = currentArticle_->signedUnknownWordInfoList();
 
     Q_FOREACH(WordInfo wordinfo, unknownList) {
-        setWordStatus(wordinfo.word_id,0);
+        bool flag = false;
+        Q_FOREACH(WordInfo signedWordInfo, signedUnknownList) {
+            if (signedWordInfo.word_id == wordinfo.word_id) {
+                flag = true;
+                break;
+            }
+        }
+        if (!flag) {
+            setWordStatus(wordinfo.word_id,0);
+        }
     }
     ui->unknownList->update();
 }
