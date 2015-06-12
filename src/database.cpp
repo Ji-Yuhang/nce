@@ -33,7 +33,7 @@ int Database::haveWord(const QString &word)
 {
     if (!db_.isOpen())db_.open();
     QSqlQuery query(db_);
-    QString sql = QString("select word_id from wordlist where content='%1'").arg(word);
+    QString sql = QString("select word_id from wordlists where content='%1'").arg(word);
     if (query.exec(sql)) {
         while (query.next()) {
             int wordid = query.value(0).toInt();
@@ -51,7 +51,7 @@ bool Database::insertNewWord(const QString &word)
 {
     if (!db_.isOpen())db_.open();
     QSqlQuery query(db_);
-    QString sql = QString("insert into wordlist (content) values('%1')").arg(word);
+    QString sql = QString("insert into wordlists (content) values('%1')").arg(word);
     if (query.exec(sql)) {
         return true;
     } else {
@@ -143,7 +143,7 @@ QList<WordInfo> Database::getAllUnknown()
 
     QList<WordInfo> all;
     QSqlQuery query(db_);
-    QString sql = QString("select *from wordlist where word_id in (select word_id from unknown_word where familiarity=0)");
+    QString sql = QString("select *from wordlists where word_id in (select word_id from unknown_word where familiarity=0)");
     if (query.exec(sql)) {
         while (query.next()) {
             int wordid = query.value(0).toInt();
