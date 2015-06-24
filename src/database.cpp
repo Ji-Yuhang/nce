@@ -72,7 +72,7 @@ int Database::unKnowWord(int word_id)
     if (!db_.isOpen())db_.open();
 
     QSqlQuery query(db_);
-    QString sql = QString("select unknown_id,familiarity from unknown_word where word_id=%1").arg(word_id);
+    QString sql = QString("select unknown_id,familiarity from unknownwords  where word_id=%1").arg(word_id);
     if (query.exec(sql)) {
         while (query.next()) {
             int wordid = query.value(0).toInt();
@@ -91,7 +91,7 @@ int Database::wordFamiliarity(int word_id)
     if (!db_.isOpen())db_.open();
 
     QSqlQuery query(db_);
-    QString sql = QString("select unknown_id,familiarity from unknown_word where word_id=%1").arg(word_id);
+    QString sql = QString("select unknown_id,familiarity from unknownwords  where word_id=%1").arg(word_id);
     if (query.exec(sql)) {
         while (query.next()) {
             int wordid = query.value(0).toInt();
@@ -110,7 +110,7 @@ bool Database::insertNewFamiliarity(int word_id)
     if (!db_.isOpen())db_.open();
 
     QSqlQuery query(db_);
-    QString sql = QString("insert into unknown_word (word_id,familiarity) values(%1,0)").arg(word_id);
+    QString sql = QString("insert into unknownwords  (word_id,familiarity) values(%1,0)").arg(word_id);
     if (query.exec(sql)) {
         return true;
     } else {
@@ -126,7 +126,7 @@ bool Database::setWordFamiliarity(int word_id, int familiarity)
     if (!db_.isOpen())db_.open();
 
     QSqlQuery query(db_);
-    QString sql = QString("update unknown_word set familiarity= %1 where word_id=%2").arg(familiarity).arg(word_id);
+    QString sql = QString("update unknownwords  set familiarity= %1 where word_id=%2").arg(familiarity).arg(word_id);
     if (query.exec(sql)) {
         return true;
     } else {
@@ -143,7 +143,7 @@ QList<WordInfo> Database::getAllUnknown()
 
     QList<WordInfo> all;
     QSqlQuery query(db_);
-    QString sql = QString("select *from wordlists where word_id in (select word_id from unknown_word where familiarity=0)");
+    QString sql = QString("select *from wordlists where word_id in (select word_id from unknownwords  where familiarity=0)");
     if (query.exec(sql)) {
         while (query.next()) {
             int wordid = query.value(0).toInt();
