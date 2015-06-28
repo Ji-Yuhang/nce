@@ -7,6 +7,7 @@
 //#include <QSound>
 #include <QTemporaryFile>
 #include <QSettings>
+Shanbay* Shanbay::g_single_shabay_ = 0;
 Shanbay::Shanbay(QObject *parent) :
     QObject(parent),
     webview_(0),
@@ -14,6 +15,7 @@ Shanbay::Shanbay(QObject *parent) :
     audioReply_(0),
     addReply_(0)
 {
+    g_single_shabay_ = this;
 //    connect(&netManager_, SIGNAL(finished(QNetworkReply*)),this, SLOT(readReply(QNetworkReply*)));
     webview_ = new QWebView;
     // old app key a589ef972d26fa87d58b
@@ -160,7 +162,7 @@ void Shanbay::getToken()
     webview_->show();
 }
 
-void Shanbay::getWord(const QString & text)
+void Shanbay::asyncGetWord(const QString & text)
 {
     if (wordReply_) return;
     if (wordMap_.contains(text)) {

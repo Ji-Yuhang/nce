@@ -410,7 +410,7 @@ void MainWindow::getToken()
 
 void MainWindow::getWord(const QString & text)
 {
-    shanbay_->getWord(text);
+    shanbay_->asyncGetWord(text);
     /*
  // https://api.shanbay.com/bdc/search/?word={word};
     QString url = QString("https://api.shanbay.com/bdc/search/?word=%1").arg(text);
@@ -457,13 +457,19 @@ void MainWindow::showWord(const QString &text)
 
 void MainWindow::playMp3(const QString &text)
 {
-    QString soucrePath = QDir::currentPath() +"/mp3/"+ text;
+#ifdef Q_OS_MAC
+    QString path = QDir::currentPath() + "/../../..";
+#else
+    QString path = QDir::currentPath();
+#endif
+    QString soucrePath = path +"/mp3/"+ text;
 //    Phonon::MediaSource source(soucrePath);
 //    mediaObj_.setCurrentSource(source);
 //    mediaObj_.play();
-//    QString command = QString("mplayer ") + soucrePath ;//+ QString(" > /dev/null");
+
+    QString command = QString("/usr/local/bin/mplayer ") + soucrePath ;//+ QString(" > /dev/null");
 //    system(command.toUtf8().data());
-//    popen(command.toUtf8().data(), "r");
+    popen(command.toUtf8().data(), "r");
 
 }
 
@@ -475,8 +481,8 @@ void MainWindow::addWord()
 
 void MainWindow::searchWord()
 {
-    QWidget * w = new QWidget;
-    w->show();
+    dictWidget_.show();
+    dictWidget_.activateWindow();
 }
 
 void MainWindow::showUnknownList()

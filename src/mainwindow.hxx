@@ -10,7 +10,7 @@
 #include <QNetworkReply>
 #include "shanbay.hxx"
 #include "ui_wordinfo.h"
-
+#include "dictwidget.hxx"
 //#include <phonon>
 
 #include "ui_sentence.h"
@@ -69,6 +69,7 @@ private:
     QWidget* sentence_;
     Ui::Sentence* sentenceUi_;
     UnknownWordListWidget* unknownWordListWidget_;
+    DictWidget dictWidget_;
 };
 class Parse
 {

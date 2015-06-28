@@ -33,6 +33,7 @@ public:
     explicit Shanbay(QObject *parent = 0);
     ~Shanbay();
     ShanbayWord wordInfo(const QString&);
+    static Shanbay* instance(){return g_single_shabay_;}
 protected:
     QNetworkAccessManager netManager_;
     QWebView* webview_;
@@ -47,6 +48,8 @@ private:
     QString token_;
     QString code_;
     QString redirect_uri_;
+
+    static Shanbay* g_single_shabay_;
 private:
     void saveTaken();
 signals:
@@ -60,12 +63,12 @@ public slots:
     void authSuccess();
     void urlChanged(QUrl);
     void getToken();
-    void getWord(const QString & text);
+    void asyncGetWord(const QString & text);
     void readWord();
     void readMp3();
     void addWord(const QString & text);
     void addReply();
 
 };
-
+#define SHANBAY Shanbay::instance()
 #endif // SHANBAY_HXX
