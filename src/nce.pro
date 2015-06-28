@@ -12,7 +12,7 @@ QT       += sql
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 QT       += webkit
 QT += webkitwidgets
-QTPLUGIN += QSQLMYSQL
+#QTPLUGIN += QSQLMYSQL
 TARGET = nce
 TEMPLATE = app
 DESTDIR = ../ncebin
@@ -37,6 +37,7 @@ SOURCES += main.cpp\
     articlewidget.cpp \
     unknownwordlistwidget.cpp \
     dictwidget.cpp
+    netmanager.cpp
 
 HEADERS  += mainwindow.hxx \
     nce.hxx \
@@ -50,6 +51,7 @@ HEADERS  += mainwindow.hxx \
     articlewidget.h \
     unknownwordlistwidget.hxx \
     dictwidget.hxx
+    netmanager.h
 
 FORMS    += mainwindow.ui \
     classinfo.ui \
