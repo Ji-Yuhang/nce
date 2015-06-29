@@ -36,7 +36,8 @@ SOURCES += main.cpp\
     books.cpp \
     articlewidget.cpp \
     unknownwordlistwidget.cpp \
-    dictwidget.cpp
+    dictwidget.cpp \
+    localdatabase.cpp
     netmanager.cpp
 
 HEADERS  += mainwindow.hxx \
@@ -50,7 +51,8 @@ HEADERS  += mainwindow.hxx \
     books.hxx \
     articlewidget.h \
     unknownwordlistwidget.hxx \
-    dictwidget.hxx
+    dictwidget.hxx \
+    localdatabase.h
     netmanager.h
 
 FORMS    += mainwindow.ui \

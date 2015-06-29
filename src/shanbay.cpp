@@ -169,7 +169,7 @@ void Shanbay::asyncGetWord(const QString & text)
         emit wordFinished(text);
         QString audio = wordMap_[text].audio;
         {
-            
+
             int index = audio.lastIndexOf("/");
             QString name = audio.mid(index + 1);
             QString path = QDir::currentPath()+"/mp3/"+name;

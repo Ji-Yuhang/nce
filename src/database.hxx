@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QSqlDatabase>
 #include "article.hxx"
+#include "localdatabase.h"
 class Database : public QObject
 {
     Q_OBJECT
@@ -28,6 +29,7 @@ public slots:
 private:
     static Database* g_db;
     QSqlDatabase db_;
+    LocalDatabase localDb_;
 };
 #define DB Database::instance()
 
