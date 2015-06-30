@@ -3,6 +3,7 @@
 #include "database.hxx"
 #include <QDebug>
 #include <assert.h>
+#include "spell.h"
 Article::Article(QObject *parent) :
     QObject(parent)
 {
@@ -37,7 +38,9 @@ void Article::parseArticle(const QString &article)
     words_ = article.split(QRegExp("\\W+"),QString::SkipEmptyParts);
     words_.removeDuplicates();
     foreach (QString w, words_) {
-        parseWord(w.toLower());
+        w = w.toLower();
+        QString word = HUNSPELL->removeNSandVS(w);
+        parseWord(word);
     }
     emit parseFinished();
 }

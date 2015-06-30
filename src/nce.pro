@@ -37,7 +37,20 @@ SOURCES += main.cpp\
     articlewidget.cpp \
     unknownwordlistwidget.cpp \
     dictwidget.cpp \
-    localdatabase.cpp
+    localdatabase.cpp \
+    hunspell/affentry.cxx \
+    hunspell/affixmgr.cxx \
+    hunspell/csutil.cxx \
+    hunspell/dictmgr.cxx \
+    hunspell/filemgr.cxx \
+    hunspell/hashmgr.cxx \
+    hunspell/hunspell.cxx \
+    hunspell/hunzip.cxx \
+    hunspell/phonet.cxx \
+    hunspell/replist.cxx \
+    hunspell/suggestmgr.cxx \
+    hunspell/utf_info.cxx \
+    spell.cpp
     netmanager.cpp
 
 HEADERS  += mainwindow.hxx \
@@ -52,7 +65,26 @@ HEADERS  += mainwindow.hxx \
     articlewidget.h \
     unknownwordlistwidget.hxx \
     dictwidget.hxx \
-    localdatabase.h
+    localdatabase.h \
+    hunspell/affentry.hxx \
+    hunspell/affixmgr.hxx \
+    hunspell/atypes.hxx \
+    hunspell/baseaffix.hxx \
+    hunspell/csutil.hxx \
+    hunspell/dictmgr.hxx \
+    hunspell/filemgr.hxx \
+    hunspell/hashmgr.hxx \
+    hunspell/htypes.hxx \
+    hunspell/hunspell.h \
+    hunspell/hunspell.hxx \
+    hunspell/hunvisapi.h \
+    hunspell/hunzip.hxx \
+    hunspell/langnum.hxx \
+    hunspell/phonet.hxx \
+    hunspell/replist.hxx \
+    hunspell/suggestmgr.hxx \
+    hunspell/w_char.hxx \
+    spell.h
     netmanager.h
 
 FORMS    += mainwindow.ui \
@@ -70,3 +102,7 @@ RESOURCES += \
 
 OTHER_FILES += \
     readme.md
+
+DISTFILES += \
+    hunspell/license.hunspell \
+    hunspell/README

@@ -13,6 +13,7 @@
 #include "dictwidget.hxx"
 //#include <phonon>
 
+#include "spell.h"
 #include "ui_sentence.h"
 
 class UnknownWordListWidget;
@@ -70,6 +71,7 @@ private:
     Ui::Sentence* sentenceUi_;
     UnknownWordListWidget* unknownWordListWidget_;
     DictWidget dictWidget_;
+    Spell spell_;
 };
 class Parse
 {
