@@ -4,9 +4,9 @@
 #include <QObject>
 #include <QStringList>
 #include "hunspell/hunspell.hxx"
-class Spell : public QObject
+class Spell// : public QObject
 {
-    Q_OBJECT
+//    Q_OBJECT
 public:
     explicit Spell(QObject *parent = 0);
     static Spell* instance(){return g_spell_;}
@@ -16,9 +16,9 @@ public:
     QStringList analyze(const QString& word);
     QStringList suggest(const QString& word);
 
-signals:
+//signals:
 
-public slots:
+//public slots:
 private:
     Hunspell sp_;
     static Spell* g_spell_;

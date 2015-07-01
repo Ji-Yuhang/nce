@@ -1,7 +1,7 @@
 #include "spell.h"
 
 Spell* Spell::g_spell_ = 0;
-Spell::Spell(QObject *parent) : QObject(parent),
+Spell::Spell(QObject *parent) :// QObject(parent),
     sp_("en_US.aff","en_US.dic")
 {
     g_spell_ = this;
