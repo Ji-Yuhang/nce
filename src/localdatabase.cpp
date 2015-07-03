@@ -3,10 +3,16 @@
 #include <QSqlQuery>
 #include <QVariant>
 #include <QDebug>
+#include <QApplication>
 LocalDatabase::LocalDatabase(QObject *parent) : QObject(parent)
 {
     db_ = QSqlDatabase::addDatabase("QSQLITE","nce");
-    db_.setDatabaseName("nce3.db");
+    QString path = qApp->applicationDirPath();
+#ifdef Q_OS_MAC
+    path += "/../../..";
+#endif
+//    QDir::setCurrent(path);
+    db_.setDatabaseName(path + "/nce3.db");
     if (db_.open()) {
         Q_ASSERT(db_.isOpen());
 
