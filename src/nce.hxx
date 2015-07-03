@@ -15,7 +15,7 @@ public:
     bool replaceFile(const QString& nce, int _class);
 public:
     QFile file_;
-    Data data_;
+    OldData data_;
     QNetworkAccessManager netManager_;
 
 signals:

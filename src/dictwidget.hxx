@@ -1,6 +1,7 @@
 #ifndef DICTWIDGET_HXX
 #define DICTWIDGET_HXX
 
+#include <QListWidgetItem>
 #include <QWidget>
 
 namespace Ui {
@@ -17,6 +18,7 @@ public:
 
 private slots:
     void on_pushButton_clicked();
+    void on_item_actived(QListWidgetItem*);
 
 private:
     Ui::DictWidget *ui;

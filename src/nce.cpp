@@ -25,7 +25,7 @@ Nce::Nce(QObject *parent) :
     for (int i = 0; i < 4; ++i) {
         QString nce = nces[i];
         for (int j = 1; j < 100; ++j) {
-            parseFile(nce, j);
+//            parseFile(nce, j);
             //replaceFile(nce, j);
         }
     }

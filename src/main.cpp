@@ -18,6 +18,9 @@ int main(int argc, char *argv[])
 //    path += "/../../..";
 //#endif
 //    QDir::setCurrent(path);
+    QFont font = a.font();
+    font.setFamily("Microsoft YaHei");
+    a.setFont(font);
     Database db;
     MainWindow w;
     w.setWindowTitle("New Concept");

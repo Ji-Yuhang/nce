@@ -20,6 +20,7 @@ public:
     bool insertNewFamiliarity(int word_id);
     bool setWordFamiliarity(int word_id, int familiarity);
     QList<WordInfo> getAllUnknown();
+    QList<Data::BookData>& bookData() {return localDb_.bookDataList;}
 
 
 signals:

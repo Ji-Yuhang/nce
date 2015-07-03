@@ -22,6 +22,7 @@ Database::Database(QObject *parent) :
         QSqlError error = db_.lastError();
         qDebug() << error.text();
     }
+    localDb_.parse();
 }
 
 Database *Database::instance()

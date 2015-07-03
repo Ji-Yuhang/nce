@@ -12,12 +12,12 @@ ClassInfo::ClassInfo(QWidget *parent) :
     connect(ui.listWidget, SIGNAL(currentRowChanged(int)),this,SLOT(changeClass(int)));
     connect(ui.pushButton_list, SIGNAL(clicked()),this,SLOT(showList()));
     connect(ui.pushButton_word, SIGNAL(clicked()),this,SLOT(showWord()));
-    m_db = QSqlDatabase::addDatabase("QMYSQL");
+    m_db = QSqlDatabase::addDatabase("QSQLITE");
 
-    m_db.setDatabaseName("anki_study");
-    m_db.setHostName("127.0.0.1");
-    m_db.setUserName("root");
-    m_db.setPassword("jiyuhang8757871");
+    m_db.setDatabaseName("nce3.db");
+//    m_db.setHostName("127.0.0.1");
+//    m_db.setUserName("root");
+//    m_db.setPassword("jiyuhang8757871");
     bool s = m_db.open();
     if (!s) {
         qDebug() << "anki_study open ERROR";
@@ -29,7 +29,7 @@ ClassInfo::ClassInfo(QWidget *parent) :
 
 void ClassInfo::init()
 {
-    Data* data = Data::instance();
+    OldData* data = OldData::instance();
     ClassContent& cc = data->classContent_;
     QList<ClassIndex> list = cc.keys();
 
@@ -70,7 +70,7 @@ void ClassInfo::changeClass(int row)
     index.class_ = _class;
 
     QString text;
-    ClassContent& cc = Data::instance()->classContent_;
+    ClassContent& cc = OldData::instance()->classContent_;
     ClassContent::iterator it = cc.begin(), ie = cc.end();
     for (; it != ie; ++it) {
         ClassIndex _index = it.key();
@@ -82,7 +82,7 @@ void ClassInfo::changeClass(int row)
     QString _text = cc[index];
     ui.textEdit->setPlainText(text);
 
-    ClassMap& cm = Data::instance()->classMap_;
+    ClassMap& cm = OldData::instance()->classMap_;
     ClassMap::iterator cit = cm.begin(), cie = cm.end();
     for (; cit != cie; ++cit) {
         ClassIndex _index = cit.key();
