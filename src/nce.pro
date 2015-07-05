@@ -50,7 +50,7 @@ SOURCES += main.cpp\
     hunspell/replist.cxx \
     hunspell/suggestmgr.cxx \
     hunspell/utf_info.cxx \
-    spell.cpp
+    spell.cpp \
     netmanager.cpp
 
 HEADERS  += mainwindow.hxx \
@@ -84,7 +84,7 @@ HEADERS  += mainwindow.hxx \
     hunspell/replist.hxx \
     hunspell/suggestmgr.hxx \
     hunspell/w_char.hxx \
-    spell.h
+    spell.h \
     netmanager.h
 
 FORMS    += mainwindow.ui \

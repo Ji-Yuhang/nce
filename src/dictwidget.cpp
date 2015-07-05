@@ -4,6 +4,7 @@
 #include "data.hxx"
 #include "database.hxx"
 #include <QScrollBar>
+#include <QDebug>
 DictWidget::DictWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::DictWidget)

@@ -4,6 +4,7 @@
 #include <QVariant>
 #include <QDebug>
 #include <QApplication>
+#include <QSqlRecord>
 LocalDatabase::LocalDatabase(QObject *parent) : QObject(parent)
 {
     db_ = QSqlDatabase::addDatabase("QSQLITE","nce");
@@ -32,15 +33,16 @@ void LocalDatabase::parse()
         if (query.exec(sql)) {
             while (query.next()) {
                 Data::Article article;
-                article.article_id = query.value("article_id").toInt();
-                article.title = query.value("title").toString();
-                article.content = query.value("content").toString();
-                article.addtime = query.value("addtime").toInt();
-                article.updatetime = query.value("updatetime").toInt();
-                article.word_count = query.value("word_count").toInt();
-                article.sentence_count = query.value("sentence_count").toInt();
-                article.author = query.value("author").toString();
-                article.status = query.value("status").toInt();
+                QSqlRecord record = query.record();
+                article.article_id = record.value("article_id").toInt();
+                article.title = record.value("title").toString();
+                article.content = record.value("content").toString();
+                article.addtime = record.value("addtime").toInt();
+                article.updatetime = record.value("updatetime").toInt();
+                article.word_count = record.value("word_count").toInt();
+                article.sentence_count = record.value("sentence_count").toInt();
+                article.author = record.value("author").toString();
+                article.status = record.value("status").toInt();
                 bookdata.articles.insert(article.article_id,article);
 
 //                qDebug() << article.article_id<<" ;"
@@ -61,15 +63,16 @@ void LocalDatabase::parse()
         if (query.exec(sql)) {
             while (query.next()) {
                 Data::Sentence sentence;
-                sentence.sentence_id = query.value("sentence_id").toInt();
-                sentence.sentence = query.value("sentence").toString();
-                sentence.article_id = query.value("article_id").toInt();
-                sentence.addtime = query.value("addtime").toInt();
-                sentence.updatetime = query.value("updatetime").toInt();
-                sentence.word_count = query.value("word_count").toInt();
-//                sentence.sentence_count = query.value("sentence_count").toInt();
-//                sentence.author = query.value("author").toString();
-                sentence.status = query.value("status").toInt();
+                QSqlRecord record = query.record();
+                sentence.sentence_id = record.value("sentence_id").toInt();
+                sentence.sentence = record.value("sentence").toString();
+                sentence.article_id = record.value("article_id").toInt();
+                sentence.addtime = record.value("addtime").toInt();
+                sentence.updatetime = record.value("updatetime").toInt();
+                sentence.word_count = record.value("word_count").toInt();
+//                sentence.sentence_count = record.value("sentence_count").toInt();
+//                sentence.author = record.value("author").toString();
+                sentence.status = record.value("status").toInt();
                 bookdata.sentences.insert(sentence.sentence_id, sentence);
 //                qDebug() << sentence.sentence_id<<" ;"
 //                         << sentence.sentence<<" ;"
@@ -87,15 +90,17 @@ void LocalDatabase::parse()
         if (query.exec(sql)) {
             while (query.next()) {
                 Data::Word word;
-                word.word_id = query.value("word_id").toInt();
-                word.word = query.value("word").toString();
-                QStringList sentenceids = query.value("sentence_id_list").toString().split(",");
+                QSqlRecord record = query.record();
+
+                word.word_id = record.value("word_id").toInt();
+                word.word = record.value("word").toString();
+                QStringList sentenceids = record.value("sentence_id_list").toString().split(",");
                 Q_FOREACH(QString s, sentenceids) {
                     int id = s.toInt();
                     word.sentence_id_list << id;
                 }
-                word.frequency = query.value("frequency").toInt();
-                word.status = query.value("status").toInt();
+                word.frequency = record.value("frequency").toInt();
+                word.status = record.value("status").toInt();
                 bookdata.words.insert( word.word_id, word);
 //                qDebug() << word.word_id<<" ;"
 //                         << word.word<<" ;"

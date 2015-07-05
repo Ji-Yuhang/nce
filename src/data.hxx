@@ -2,6 +2,7 @@
 #define DATA_HXX
 
 #include <QObject>
+#include <QString>
 #include <QMap>
 #include <QMultiMap>
 
