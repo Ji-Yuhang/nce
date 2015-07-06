@@ -38,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui.tableWidget, SIGNAL(cellClicked(int,int)), this, SLOT(showInfo(int,int)));
     connect(ui.read, SIGNAL(triggered()),this,SLOT(showRead()));
     connect(ui.importFile, SIGNAL(triggered()),this,SLOT(import()));
+    connect(ui.parseArticle, SIGNAL(triggered()),this,SLOT(parseArticle()));
+
     connect(ui.actionSentence, SIGNAL(triggered()),this,SLOT(sentence()));
     connect(ui.actionUnknown_word_list, SIGNAL(triggered()),this,SLOT(showUnknownList()));
 
@@ -139,6 +141,11 @@ void MainWindow::showInfo(int row,int col)
 void MainWindow::showRead()
 {
     classInfo_.showNormal();
+}
+
+void MainWindow::parseArticle()
+{
+  articleWidget_.showNormal();
 }
 
 void MainWindow::import()

@@ -13,6 +13,7 @@
 #include "dictwidget.hxx"
 //#include <phonon>
 
+#include "articlewidget.h"
 #include "spell.h"
 #include "ui_sentence.h"
 
@@ -31,6 +32,7 @@ public:
 public slots:
     void showInfo(int row,int col);
     void showRead();
+    void parseArticle();
     void import();
     void sentence();
     void parseSentence();
@@ -53,6 +55,7 @@ private:
     static MainWindow* g_mainwindow_;
     Ui::MainWindow ui;
     ClassInfo classInfo_;
+    ArticleWidget articleWidget_;
     QWidget import_;
     Ui::ImportUi importUi;
     QString path_;

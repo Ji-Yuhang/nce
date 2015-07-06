@@ -3,7 +3,6 @@
 #include <QDir>
 #include <QTextCodec>
 #include "books.hxx"
-#include "articlewidget.h"
 #include "database.hxx"
 int main(int argc, char *argv[])
 {
@@ -13,21 +12,25 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 #endif
     QApplication a(argc, argv);
-//    QString path = qApp->applicationDirPath();
-//#ifdef Q_OS_MAC
-//    path += "/../../..";
-//#endif
-//    QDir::setCurrent(path);
+    QString path = qApp->applicationDirPath();
+#ifdef Q_OS_MAC
+    path += "/../../..";
+#endif
+    QDir::setCurrent(path);
+#ifdef Q_OS_WIN32
     QFont font = a.font();
     font.setFamily("Microsoft YaHei");
     a.setFont(font);
+    qDebug()<< "Microsoft YaHei";
+#endif
+    qDebug()<< QDir::currentPath();
+
     Database db;
     MainWindow w;
     w.setWindowTitle("New Concept");
     w.show();
 //    w.init();
-    ArticleWidget aw;
-    aw.show();
+//    aw.show();
 
     return a.exec();
 }

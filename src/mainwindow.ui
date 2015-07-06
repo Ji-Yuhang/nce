@@ -63,7 +63,7 @@
      <x>0</x>
      <y>0</y>
      <width>566</width>
-     <height>25</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -74,11 +74,12 @@
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
-     <string>课文</string>
+     <string>文章</string>
     </property>
     <addaction name="read"/>
     <addaction name="importFile"/>
     <addaction name="historyArticle"/>
+    <addaction name="parseArticle"/>
    </widget>
    <widget class="QMenu" name="menuS">
     <property name="title">
@@ -109,7 +110,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="read">
    <property name="text">
-    <string>课文</string>
+    <string>文章列表</string>
    </property>
   </action>
   <action name="actionQuit">
@@ -140,6 +141,11 @@
   <action name="actionUnknown_word_list">
    <property name="text">
     <string>unknown word list</string>
+   </property>
+  </action>
+  <action name="parseArticle">
+   <property name="text">
+    <string>分析文章</string>
    </property>
   </action>
  </widget>
