@@ -43,6 +43,7 @@ void ArticleWidget::on_parse_clicked()
     {
         int a = allword.size();
         int un = unknownList.size();
+        int signedun = signedUnknownList.size();
         int k = a - un;
 
         ui->all->setText(QString::number(a));
@@ -50,6 +51,7 @@ void ArticleWidget::on_parse_clicked()
         ui->unknown->setText(QString::number(un));
         ui->ratio->setText(QString::number(double(un* 100.0/a )) + "%");
         ui->unknownratio->setText(QString::number(un) + " / " + QString::number(a));
+        ui->signed_unknown->setText(QString::number(signedun));
     }
     QTableWidget* table = ui->unknownList;
     clearTable(table);
@@ -61,7 +63,22 @@ void ArticleWidget::on_parse_clicked()
     int row = 0;
     Q_FOREACH(WordInfo wordinfo, unknownList) {
 
+        {
+            bool flag = false;
+            Q_FOREACH(WordInfo signedWordInfo, signedUnknownList) {
+                if (signedWordInfo.word_id == wordinfo.word_id) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) {
+                continue;
+//                statusItem->setBackgroundColor(Qt::yellow);
 
+//                table->setCellWidget(row,2,0);
+//                table->setCellWidget(row,3,0);
+            }
+        }
 
         table->setItem(row,0,new QTableWidgetItem(wordinfo.word));
         QString known = wordinfo.familiarity > 1 ? "knwon":"unknown";
@@ -84,20 +101,7 @@ void ArticleWidget::on_parse_clicked()
 
         wordstatusItemMap_.insert(wordinfo.word_id,statusItem);
 
-        {
-            bool flag = false;
-            Q_FOREACH(WordInfo signedWordInfo, signedUnknownList) {
-                if (signedWordInfo.word_id == wordinfo.word_id) {
-                    flag = true;
-                    break;
-                }
-            }
-            if (flag) {
-                statusItem->setBackgroundColor(Qt::yellow);
-                table->setCellWidget(row,2,0);
-                table->setCellWidget(row,3,0);
-            }
-        }
+
         row++;
     }
     QMessageBox * msg = new QMessageBox(QMessageBox::NoIcon,"finished","parse finished");

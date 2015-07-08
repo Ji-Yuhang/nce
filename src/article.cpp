@@ -72,7 +72,17 @@ void Article::parseWord(const QString &word)
         assert(familiarity >= 0);
     } else if (familiarity == 0 ) {
         // TODO: have signed unknown
-        signedUnknownWordInfoList_.append(info);
+//        signedUnknownWordInfoList_.append(info);
+        bool flag1 = true;
+
+        Q_FOREACH (WordInfo temp, signedUnknownWordInfoList_) {
+            if (temp.word_id == wordid) {
+                flag1 = false;
+                break;
+            }
+        }
+        if (flag1) signedUnknownWordInfoList_.append(info);
+
     } else if (familiarity == 1) {
         // TODO: known this word
 

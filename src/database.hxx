@@ -5,6 +5,7 @@
 #include <QSqlDatabase>
 #include "article.hxx"
 #include "localdatabase.h"
+#include "netmanager.h"
 class Database : public QObject
 {
     Q_OBJECT
@@ -31,6 +32,7 @@ private:
     static Database* g_db;
     QSqlDatabase db_;
     LocalDatabase localDb_;
+    NetManager net_;
 };
 #define DB Database::instance()
 

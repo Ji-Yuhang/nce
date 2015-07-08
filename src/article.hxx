@@ -8,6 +8,8 @@ struct WordInfo {
     int word_id;
     QString word;
     int familiarity;
+    WordInfo():word_id(0),familiarity(-1){}
+
 };
 
 class Article : public QObject
