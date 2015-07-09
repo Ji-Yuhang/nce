@@ -10,7 +10,7 @@ class LocalDatabase : public QObject
     Q_OBJECT
 public:
     explicit LocalDatabase(QObject *parent = 0);
-    void parse();
+    void parse(QSqlDatabase db);
     void save();
     QList<Data::BookData> bookDataList;
 
@@ -19,7 +19,9 @@ signals:
 
 public slots:
 private:
-    QSqlDatabase db_;
+    QSqlDatabase nce_db_;
+    QSqlDatabase willpower_db_;
+
 };
 
 #endif // LOCALDATABASE_H

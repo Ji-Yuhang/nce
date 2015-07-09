@@ -7,29 +7,38 @@
 #include <QSqlRecord>
 LocalDatabase::LocalDatabase(QObject *parent) : QObject(parent)
 {
-    db_ = QSqlDatabase::addDatabase("QSQLITE","nce");
+    nce_db_ = QSqlDatabase::addDatabase("QSQLITE","nce");
     QString path = qApp->applicationDirPath();
 #ifdef Q_OS_MAC
     path += "/../../..";
 #endif
 //    QDir::setCurrent(path);
-    db_.setDatabaseName(path + "/nce3.db");
-    if (db_.open()) {
-        Q_ASSERT(db_.isOpen());
+    nce_db_.setDatabaseName(path + "/nce3.db");
+    if (nce_db_.open()) {
+        Q_ASSERT(nce_db_.isOpen());
+        parse(nce_db_);
 
     } else {
         Q_ASSERT(false);
     }
+    willpower_db_ = QSqlDatabase::addDatabase("QSQLITE","the_will_power_instinct");
+    willpower_db_.setDatabaseName(path + "/the_will_power_instinct.db");
+    if (willpower_db_.open()) {
+        Q_ASSERT(willpower_db_.isOpen());
+        parse(willpower_db_);
 
+    } else {
+        Q_ASSERT(false);
+    }
 }
 
-void LocalDatabase::parse()
+void LocalDatabase::parse(QSqlDatabase db)
 {
-    if (!db_.isOpen()) return;
+    if (!db.isOpen()) return;
     Data::BookData bookdata;
     {
         QString sql = QString("select * from articles");
-        QSqlQuery query(db_);
+        QSqlQuery query(db);
         if (query.exec(sql)) {
             while (query.next()) {
                 Data::Article article;
@@ -59,7 +68,7 @@ void LocalDatabase::parse()
     }
     {
         QString sql = QString("select * from sentences");
-        QSqlQuery query(db_);
+        QSqlQuery query(db);
         if (query.exec(sql)) {
             while (query.next()) {
                 Data::Sentence sentence;
@@ -86,7 +95,7 @@ void LocalDatabase::parse()
     }
     {
         QString sql = QString("select * from words");
-        QSqlQuery query(db_);
+        QSqlQuery query(db);
         if (query.exec(sql)) {
             while (query.next()) {
                 Data::Word word;

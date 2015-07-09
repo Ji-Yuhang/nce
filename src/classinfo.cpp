@@ -15,9 +15,6 @@ ClassInfo::ClassInfo(QWidget *parent) :
     m_db = QSqlDatabase::addDatabase("QSQLITE");
 
     m_db.setDatabaseName("nce3.db");
-//    m_db.setHostName("127.0.0.1");
-//    m_db.setUserName("root");
-//    m_db.setPassword("jiyuhang8757871");
     bool s = m_db.open();
     if (!s) {
         qDebug() << "anki_study open ERROR";
