@@ -3,7 +3,7 @@
 
 #include <QListWidgetItem>
 #include <QWidget>
-
+#include "collins.h"
 namespace Ui {
 class DictWidget;
 }
@@ -22,6 +22,7 @@ private slots:
 
 private:
     Ui::DictWidget *ui;
+    Collins collinsDict_;
 };
 
 #endif // DICTWIDGET_HXX

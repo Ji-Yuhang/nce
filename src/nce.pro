@@ -51,7 +51,8 @@ SOURCES += main.cpp\
     hunspell/suggestmgr.cxx \
     hunspell/utf_info.cxx \
     spell.cpp \
-    netmanager.cpp
+    netmanager.cpp \
+    collins.cpp
 
 HEADERS  += mainwindow.hxx \
     nce.hxx \
@@ -85,7 +86,8 @@ HEADERS  += mainwindow.hxx \
     hunspell/suggestmgr.hxx \
     hunspell/w_char.hxx \
     spell.h \
-    netmanager.h
+    netmanager.h \
+    collins.h
 
 FORMS    += mainwindow.ui \
     classinfo.ui \

@@ -41,6 +41,11 @@ void DictWidget::on_pushButton_clicked()
     }
     if (ui->listWidget->count() == 1) on_item_actived(ui->listWidget->item(0));
 
+    CollinsWordInfo collinsInfo  = collinsDict_.wordInfo(text);
+    QString collinsHtml = collinsInfo.html;
+    qDebug() << collinsHtml;
+    ui->collins->setHtml(collinsHtml);
+
 
 
 }
@@ -75,4 +80,7 @@ void DictWidget::on_item_actived(QListWidgetItem *item)
 
 //    qFuzzyCompare()
     ui->article->verticalScrollBar()->setValue(value);
+
+
+
 }

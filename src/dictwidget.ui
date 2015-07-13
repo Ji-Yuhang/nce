@@ -14,30 +14,22 @@
    <string>Dict</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
-   <item row="0" column="0">
-    <widget class="QLineEdit" name="lineEdit"/>
-   </item>
-   <item row="0" column="1">
-    <widget class="QPushButton" name="pushButton">
-     <property name="text">
-      <string>search</string>
+   <item row="3" column="0" colspan="3">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>book</string>
      </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QListWidget" name="listWidget"/>
+      </item>
+      <item row="0" column="1">
+       <widget class="QTextEdit" name="article"/>
+      </item>
+     </layout>
     </widget>
    </item>
-   <item row="0" column="2">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>231</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="1" column="0" colspan="3">
+   <item row="2" column="0" colspan="3">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Shanbay</string>
@@ -103,14 +95,6 @@
        </widget>
       </item>
      </layout>
-     <zorder>label_8</zorder>
-     <zorder>label_2</zorder>
-     <zorder>label_5</zorder>
-     <zorder>label</zorder>
-     <zorder>label_6</zorder>
-     <zorder>label_4</zorder>
-     <zorder>label_7</zorder>
-     <zorder>label_3</zorder>
      <zorder>textEdit</zorder>
      <zorder>label_8</zorder>
      <zorder>label_5</zorder>
@@ -122,17 +106,37 @@
      <zorder>label_3</zorder>
     </widget>
    </item>
-   <item row="2" column="0" colspan="3">
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="title">
-      <string>book</string>
+   <item row="0" column="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-     <layout class="QGridLayout" name="gridLayout_2">
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>231</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="1">
+    <widget class="QPushButton" name="pushButton">
+     <property name="text">
+      <string>search</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLineEdit" name="lineEdit"/>
+   </item>
+   <item row="1" column="0" colspan="3">
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>Collins</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
       <item row="0" column="0">
-       <widget class="QListWidget" name="listWidget"/>
-      </item>
-      <item row="0" column="1">
-       <widget class="QTextEdit" name="article"/>
+       <widget class="QTextEdit" name="collins"/>
       </item>
      </layout>
     </widget>
