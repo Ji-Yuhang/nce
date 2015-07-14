@@ -4,16 +4,21 @@
 #include <QStringList>
 Collins::Collins(QObject *parent) : QObject(parent)
 {
-    QString path = "D:/work/mdx/GetDict_veryhuo.com/collins_mdx_source";
-    readCollins(path);
+    QString zh_path = "D:/work/mdx/GetDict_veryhuo.com/collins_mdx_source";
+    QString en_path = "D:/work/mdx/GetDict_veryhuo.com/collins_english_mdx_source";
+
+    readCollins(zh_path,CollinsZH);
+    readCollins(en_path,CollinsEN);
+
+
 }
 
 CollinsWordInfo Collins::wordInfo(const QString &word)
 {
-    return wordInfo_[word];
+    return enwordInfo_[word];
 }
 
-void Collins::readCollins(const QString &filePath)
+void Collins::readCollins(const QString &filePath,DictType type)
 {
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly)) {
@@ -45,7 +50,11 @@ void Collins::readCollins(const QString &filePath)
         CollinsWordInfo wordinfo;
         wordinfo.word = word;
         wordinfo.html = html;
-        wordInfo_.insert(word,wordinfo);
+        if (type == CollinsZH)
+            zhwordInfo_.insert(word,wordinfo);
+        else if (type == CollinsEN)
+            enwordInfo_.insert(word,wordinfo);
+
 
     }
 }
