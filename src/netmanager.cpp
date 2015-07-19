@@ -3,6 +3,7 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include "json.h"
+#include <QDebug>
 NetManager* NetManager::g_single_net_manager_ = 0;
 NetManager::NetManager(QObject *parent) : QObject(parent)
 {
