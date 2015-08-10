@@ -17,7 +17,8 @@ ArticleWidget::ArticleWidget(QWidget *parent) :
     connect(ui->unknownList, SIGNAL(itemEntered(QTableWidgetItem*)), this, SLOT(onItemEntered(QTableWidgetItem*)));
     connect(ui->previewKnowList, SIGNAL(itemEntered(QTableWidgetItem*)), this, SLOT(onItemEntered(QTableWidgetItem*)));
     connect(ui->previewUnknowList, SIGNAL(itemEntered(QTableWidgetItem*)), this, SLOT(onItemEntered(QTableWidgetItem*)));
-
+    ui->groupBox->hide();
+    ui->groupBox_2->hide();
 }
 
 ArticleWidget::~ArticleWidget()
@@ -33,6 +34,8 @@ void ArticleWidget::on_save_clicked()
 
 void ArticleWidget::on_parse_clicked()
 {
+//    ui-
+    ui->groupBox->show();
     if (!currentArticle_) currentArticle_ = new Article;
     QString text = ui->textEdit->toPlainText();
     currentArticle_->parseArticle(text);
@@ -204,6 +207,7 @@ void ArticleWidget::on_allAnti_clicked()
 
 void ArticleWidget::on_preview_clicked()
 {
+    ui->groupBox_2->show();
     int knwonsize = 0;
     int unknownsize = 0;
     {
@@ -353,3 +357,14 @@ void ArticleWidget::clearTable(QTableWidget *table)
 }
 
 
+
+void ArticleWidget::on_pushButton_clicked()
+{
+    ui->groupBox->setVisible(!ui->groupBox->isVisible());
+
+}
+
+void ArticleWidget::on_pushButton_3_clicked()
+{
+    ui->groupBox_2->setVisible(!ui->groupBox_2->isVisible());
+}
