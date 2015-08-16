@@ -51,6 +51,9 @@ public slots:
     void addWord();
     void searchWord();
     void showUnknownList();
+private slots:
+    void on_pushButton_clicked();
+
 private:
     static MainWindow* g_mainwindow_;
     Ui::MainWindow ui;
