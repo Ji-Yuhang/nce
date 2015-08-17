@@ -108,8 +108,8 @@ void ArticleWidget::on_parse_clicked()
         row++;
     }
     QMessageBox * msg = new QMessageBox(QMessageBox::NoIcon,"finished","parse finished");
-    msg->exec();
     QTimer::singleShot(500, msg, SLOT(accept()));
+    msg->exec();
 }
 
 void ArticleWidget::onKnowButtonClicked()

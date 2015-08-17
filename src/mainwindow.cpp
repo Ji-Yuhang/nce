@@ -489,6 +489,9 @@ void MainWindow::playMp3(const QString &text)
 //    mediaObj_.play();
 
     QString command = QString("/usr/local/bin/mplayer ") + soucrePath ;//+ QString(" > /dev/null");
+#ifdef Q_OS_WIN32
+    command = QDir::currentPath()+"/mplayer.exe "+ soucrePath;
+#endif
 //    system(command.toUtf8().data());
     popen(command.toUtf8().data(), "r");
 
