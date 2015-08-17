@@ -16,7 +16,7 @@
 #include "articlewidget.h"
 #include "spell.h"
 #include "ui_sentence.h"
-
+#include "personwordwidget.h"
 class UnknownWordListWidget;
 class QWebView;
 class MainWindow : public QMainWindow
@@ -78,6 +78,7 @@ private:
     UnknownWordListWidget* unknownWordListWidget_;
     DictWidget dictWidget_;
     Spell spell_;
+    PersonWordWidget personWordWidget_;
 };
 class Parse
 {

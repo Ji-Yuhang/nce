@@ -52,7 +52,9 @@ SOURCES += main.cpp\
     hunspell/utf_info.cxx \
     spell.cpp \
     netmanager.cpp \
-    collins.cpp
+    collins.cpp \
+    staticwidget.cpp \
+    personwordwidget.cpp
 
 HEADERS  += mainwindow.hxx \
     nce.hxx \
@@ -87,7 +89,9 @@ HEADERS  += mainwindow.hxx \
     hunspell/w_char.hxx \
     spell.h \
     netmanager.h \
-    collins.h
+    collins.h \
+    staticwidget.h \
+    personwordwidget.h
 
 FORMS    += mainwindow.ui \
     classinfo.ui \
@@ -97,7 +101,9 @@ FORMS    += mainwindow.ui \
     sentence.ui \
     articlewidget.ui \
     unknownwordlistwidget.ui \
-    dictwidget.ui
+    dictwidget.ui \
+    staticwidget.ui \
+    personwordwidget.ui
 
 RESOURCES += \
     resource.qrc

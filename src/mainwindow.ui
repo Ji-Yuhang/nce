@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>670</width>
+    <width>725</width>
     <height>556</height>
    </rect>
   </property>
@@ -53,19 +53,22 @@
       <property name="title">
        <string/>
       </property>
-      <widget class="QLabel" name="label">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>30</y>
-         <width>81</width>
-         <height>71</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>头像</string>
-       </property>
-      </widget>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>冀宇航</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>头像</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
     <item row="2" column="0" colspan="3">
@@ -77,7 +80,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <property name="documentMode">
        <bool>false</bool>
@@ -115,6 +118,7 @@
        <attribute name="title">
         <string>私人单词信息</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_4"/>
       </widget>
      </widget>
     </item>
@@ -125,8 +129,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>670</width>
-     <height>23</height>
+     <width>725</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">

@@ -72,6 +72,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui.word, SIGNAL(triggered()), this, SLOT(searchWord()));
 //    Phonon::createPath(&mediaObj_, &output_);
     ui.groupBox->hide();
+    ui.gridLayout_4->addWidget(&personWordWidget_);
+
 }
 MainWindow::~MainWindow()
 {
@@ -255,7 +257,18 @@ void MainWindow::indent()
         sentenceList[i].trimmed();
 
     QString newString = sentenceList.join(".\n");
-    importUi.textEdit->setPlainText(newString);
+
+    QList<WordInfo> knownwordlist = DB->getAllUnknown();
+    QStringList knownwords;
+    Q_FOREACH(WordInfo info, knownwordlist) {
+
+        newString = newString.replace(" "+info.word+" "," <word style=\"color:red;font-weight:bold;text-decoration:underline;\">"+info.word+"</word> ");
+        knownwords.append(info.word);
+        qDebug() << info.word;
+    }
+    importUi.textEdit->setHtml(newString);
+
+//    ui->listWidget_known->addItems(knownwords);
     /*
     QFile file;
     file.setFileName(path_);
